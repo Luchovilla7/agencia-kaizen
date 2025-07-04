@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>DIVIA™ | Digitaliza e Impulsa tus Ventas con IA</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Arial", -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, sans-serif;
+        background: #0d0d0d;
+        color: #ffffff;
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+
+      /* Animated Background */
+      .animated-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: -1;
+        background: linear-gradient(45deg, #0d0d0d, #1f1f1f);
+      }
+
+      .particles {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .particle {
+        position: absolute;
+        width: 2px;
+        height: 2px;
+        background: #00d4ff;
+        border-radius: 50%;
+        animation: float 6s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0px) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(180deg);
+        }
+      }
+
+      /* Hero Section */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.1),
+          rgba(138, 43, 226, 0.1)
+        );
+        position: relative;
+      }
+
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+          ellipse at center,
+          rgba(0, 212, 255, 0.15) 0%,
+          transparent 70%
+        );
+      }
+
+      .hero-content {
+        max-width: 1000px;
+        z-index: 2;
+        position: relative;
+      }
+
+      .hero h1 .divia-title {
+        font-size: 7rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .hero h1 {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: fadeInUp 1s ease-out;
+      }
+
+      .hero p {
+        font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+        margin-bottom: 2.5rem;
+        color: #cccccc;
+        animation: fadeInUp 1s ease-out 0.3s both;
+      }
+
+      .cta-button {
+        display: inline-block;
+        padding: 1.2rem 2.5rem;
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        color: white;
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s ease;
+        animation: fadeInUp 1s ease-out 0.6s both;
+        box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+      }
+
+      .cta-button:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 20px 40px rgba(0, 212, 255, 0.4);
+      }
+
+      /* Section Styles */
+      .section {
+        padding: 5rem 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .section-title {
+        font-size: clamp(2rem, 4vw, 3rem);
+        text-align: center;
+        margin-bottom: 3rem;
+        background: linear-gradient(45deg, #00d4ff, #ffffff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Why Now Section  */
+      .faq-container {
+        width: 100%;
+        max-width: 900px;
+        background-color: #1f1f1f;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        padding: 30px;
+        box-sizing: border-box;
+      }
+
+      h2 {
+        text-align: center;
+        color: #00d4ff;
+        margin-bottom: 30px;
+        font-size: 2.2em;
+        text-shadow: 0 0 8px rgba(0, 200, 220, 0.4);
+      }
+
+      .faq-item {
+        border-bottom: 1px solid #0d0d0d;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        overflow: hidden; /* Important for animation */
+      }
+
+      .faq-item:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+      }
+
+      .faq-question {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1.1em;
+        font-weight: bold;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        position: relative;
+        z-index: 1; /* Ensure button is above animation overlay */
+      }
+
+      .faq-question:hover {
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        color: #0d0d0d;
+      }
+
+      .faq-question.active {
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        color: #0d0d0d;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .faq-question::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          45deg,
+          rgba(0, 188, 212, 0.1) 0%,
+          rgba(0, 188, 212, 0.3) 100%
+        );
+        border-radius: 8px;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+        z-index: -1;
+      }
+
+      .faq-question:hover::before {
+        opacity: 1;
+      }
+
+      .faq-question span.icon {
+        font-size: 1.5em;
+        transition: transform 0.3s ease;
+      }
+
+      .faq-question.active span.icon {
+        transform: rotate(45deg);
+      }
+
+      .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.7s ease-in-out, padding 0.7s ease-in-out;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
+      }
+
+      .faq-answer p {
+        padding: 20px 25px;
+        margin: 0;
+        font-size: 0.95em;
+        color: #cccccc;
+        background-color: #0d0d0d; /* Ensure background for content */
+      }
+
+      /* Objections Section */
+      .objections-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .objection-card {
+        background: rgba(31, 31, 31, 0.8);
+        padding: 1.5rem;
+        border-radius: 15px;
+        border-left: 4px solid #ff6b6b;
+        transition: all 0.3s ease;
+      }
+
+      .objection-card:hover {
+        border-left-color: #00d4ff;
+        transform: translateX(10px);
+      }
+
+      /* Benefits Grid */
+      .benefits-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+      }
+
+      .benefit-card {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.1),
+          rgba(138, 43, 226, 0.1)
+        );
+        padding: 2rem;
+        border-radius: 20px;
+        text-align: center;
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        transition: all 0.3s ease;
+      }
+
+      .benefit-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 15px 30px rgba(0, 212, 255, 0.3);
+      }
+
+      /* Timeline */
+      .timeline {
+        position: relative;
+        padding: 2rem 0;
+      }
+
+      .timeline::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        top: 0;
+        bottom: 0;
+        width: 4px;
+        background: linear-gradient(to bottom, #00d4ff, #8a2be2);
+        transform: translateX(-50%);
+      }
+
+      .timeline-item {
+        position: relative;
+        margin: 3rem 0;
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.6s ease;
+      }
+
+      .timeline-item.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content {
+        margin-right: 55%;
+        text-align: right;
+      }
+
+      .timeline-item:nth-child(even) .timeline-content {
+        margin-left: 55%;
+        text-align: left;
+      }
+
+      .timeline-marker {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        width: 20px;
+        height: 20px;
+        background: #00d4ff;
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 20px rgba(0, 212, 255, 0.5);
+      }
+
+      .timeline-content {
+        background: rgba(31, 31, 31, 0.8);
+        padding: 2rem;
+        border-radius: 15px;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(0, 212, 255, 0.3);
+        position: relative;
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+      }
+
+      .timeline-text {
+        flex: 1;
+      }
+
+      .timeline-image {
+        width: 120px;
+        height: 120px;
+        border-radius: 15px;
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.2),
+          rgba(138, 43, 226, 0.2)
+        );
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        backdrop-filter: blur(10px);
+        flex-shrink: 0;
+      }
+
+      .timeline-item:nth-child(odd) .timeline-content {
+        flex-direction: row-reverse;
+      }
+
+      .timeline-week {
+        color: #00d4ff;
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      /* Pricing Section */
+      .pricing-card {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.1),
+          rgba(138, 43, 226, 0.1)
+        );
+        padding: 3rem;
+        border-radius: 25px;
+        text-align: center;
+        border: 2px solid rgba(0, 212, 255, 0.3);
+        max-width: 500px;
+        margin: 0 auto;
+      }
+
+      .price-main {
+        font-size: 3rem;
+        font-weight: 800;
+        color: #00d4ff;
+        margin: 1rem 0;
+      }
+
+      .price-alternative {
+        font-size: 1.2rem;
+        color: #cccccc;
+        margin-bottom: 2rem;
+      }
+
+      /* Results Grid */
+      .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+        gap: 1.5rem;
+        margin: 3rem 0;
+      }
+
+      .result-item {
+        background: rgba(31, 31, 31, 0.6);
+        padding: 1.5rem;
+        border-radius: 15px;
+        border-left: 4px solid #00d4ff;
+        transition: all 0.3s ease;
+      }
+
+      .result-item:hover {
+        transform: translateX(10px);
+        background: rgba(0, 212, 255, 0.1);
+      }
+
+      /* Final CTA */
+      .final-cta {
+        background: linear-gradient(
+          135deg,
+          rgba(0, 212, 255, 0.2),
+          rgba(138, 43, 226, 0.2)
+        );
+        padding: 5rem 2rem;
+        text-align: center;
+        margin-top: 5rem;
+      }
+
+      .final-cta h2 {
+        font-size: clamp(2rem, 4vw, 3.5rem);
+        margin-bottom: 2rem;
+        background: linear-gradient(45deg, #00d4ff, #8a2be2);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      /* Footer */
+      .footer {
+        background: #1f1f1f;
+        padding: 2rem;
+        text-align: center;
+        color: #cccccc;
+        border-top: 1px solid rgba(0, 212, 255, 0.3);
+      }
+
+      /* Animations */
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .fade-in {
+        opacity: 0;
+        transform: translateY(50px);
+        transition: all 0.8s ease;
+      }
+
+      .fade-in.animate {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .timeline::before {
+          left: 20px;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content,
+        .timeline-item:nth-child(even) .timeline-content {
+          margin-left: 60px;
+          margin-right: 0;
+          text-align: left;
+          flex-direction: column;
+        }
+
+        .timeline-marker {
+          left: 20px;
+        }
+
+        .timeline-image {
+          display: none;
+        }
+
+        .objections-grid,
+        .benefits-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .results-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .section {
+          padding: 3rem 1rem;
+        }
+
+        .faq-container {
+          padding: 20px;
+        }
+
+        h2 {
+          font-size: 1.8em;
+        }
+
+        .faq-question {
+          font-size: 1em;
+          padding: 12px 15px;
+        }
+
+        .faq-answer p {
+          padding: 15px 20px;
+          font-size: 0.9em;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .hero {
+          padding: 1rem;
+        }
+
+        .divia-title {
+          font-size: 2rem;
+        }
+
+        .cta-button {
+          padding: 1rem 2rem;
+          font-size: 1rem;
+        }
+
+        .pricing-card {
+          padding: 2rem 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Animated Background -->
+    <div class="animated-bg">
+      <div class="particles" id="particles"></div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="hero-content">
+        <h1>
+          <span class="divia-title">DIVIA</span><br />Digitaliza e Impulsa tus
+          Ventas con Inteligencia Artificial
+        </h1>
+        <p>
+          Servicio intensivo para consultores y expertos que quieren dejar de
+          improvisar, automatizar y escalar sus servicios con IA.
+        </p>
+        <a href="#final-cta" class="cta-button"
+          >QUIERO IMPLEMENTAR DIVIA™ EN MI NEGOCIO</a
+        >
+      </div>
+    </section>
+
+    <!-- Objections Section -->
+    <section class="section fade-in">
+      <h2 class="section-title">
+        <i class="bi bi-exclamation-triangle-fill"></i> ¿Te suena familiar?
+      </h2>
+      <div class="objections-grid">
+        <div class="objection-card">
+          <h3>🔸 "No tengo tiempo para implementar ahora"</h3>
+          <p>
+            Sigues posponiendo lo que más necesitas por falta de estructura.
+          </p>
+        </div>
+        <div class="objection-card">
+          <h3>🔸 "No sé si la inteligencia artificial es para mí"</h3>
+          <p>La tecnología te intimida y prefieres seguir como siempre.</p>
+        </div>
+        <div class="objection-card">
+          <h3>🔸 "Ya hice muchos programas que no funcionaron"</h3>
+          <p>
+            Has invertido en formaciones que no te dieron resultados reales.
+          </p>
+        </div>
+        <div class="objection-card">
+          <h3>🔸 "Estoy reestructurando todo"</h3>
+          <p>
+            Vives en constante cambio sin llegar nunca a una versión estable.
+          </p>
+        </div>
+        <div class="objection-card">
+          <h3>🔸 "No sé usar Notion o GPTs"</h3>
+          <p>
+            Las herramientas modernas te parecen complicadas o inaccesibles.
+          </p>
+        </div>
+        <div class="objection-card">
+          <h3>🔸 "Todo lo anterior junto"</h3>
+          <p>
+            En este punto sólo vez como tu negocio cae en picada por no
+            adaptarse al mundo digital.
+          </p>
+        </div>
+      </div>
+      <div class="glass-card">
+        <p style="text-align: center; font-size: 1.2rem; color: #00d4ff">
+          <strong>DIVIA™ existe precisamente para resolver todo eso.</strong
+          ><br />
+          No es teoría. No es más información. Es acción, estrategia y
+          resultados en 4 semanas.
+        </p>
+      </div>
+    </section>
+
+    <!-- What is DIVIA Section -->
+    <section class="section fade-in">
+      <h2 class="section-title"><i class="bi bi-stars"></i> ¿Qué es DIVIA™?</h2>
+      <p
+        style="
+          text-align: center;
+          font-size: 1.2rem;
+          margin-bottom: 3rem;
+          color: #cccccc;
+        "
+      >
+        Un sistema de transformación digital intensivo de 4 semanas que:
+      </p>
+      <div class="benefits-grid">
+        <div class="benefit-card">
+          <i class="bi bi-briefcase-fill" style="font-size: 45px"></i>
+          <h3>Estructura tu negocio</h3>
+          <p>Claridad total en tus servicios y procesos</p>
+        </div>
+        <div class="benefit-card">
+          <i class="bi bi-robot" style="font-size: 45px"></i>
+          <h3>Automatización con IA</h3>
+          <p>Contenido, atención y funnel automatizados</p>
+        </div>
+        <div class="benefit-card">
+          <i class="bi bi-openai" style="font-size: 45px"></i>
+          <h3>GPTs Personalizados</h3>
+          <p>Asistentes entrenados con tu voz y tono</p>
+        </div>
+        <div class="benefit-card">
+          <i class="bi bi-hourglass-split" style="font-size: 45px"></i>
+          <h3>Ahorro de Tiempo</h3>
+          <p>Entre 8 y 15 horas operativas cada semana</p>
+        </div>
+        <div class="benefit-card">
+          <i class="bi bi-graph-up-arrow" style="font-size: 45px"></i>
+          <h3>Escalabilidad</h3>
+          <p>Aumenta tus ventas entre 30% y 60%</p>
+        </div>
+        <div class="benefit-card">
+          <i class="bi bi-stars" style="font-size: 45px"></i>
+          <h3>Sin perder tu esencia</h3>
+          <p>Mantén el alma de tu negocio intacta</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- How We Work Section -->
+    <section class="section fade-in">
+      <h2 class="section-title">
+        <i class="bi bi-person-workspace"></i> ¿Cómo trabajaremos?
+      </h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-text">
+              <div class="timeline-week">FASE 1 | ACTIVACIÓN DIVIA™</div>
+              <h3>Configuración Inicial</h3>
+              <p>
+                Completá tu formulario estratégico para capturar la esencia de
+                tu marca: visión, propósito, valores y servicios actuales.
+              </p>
+              <p>
+                Esta información es esencial para entrenar tu <b>GPT Base</b>,
+                la primera versión de tu IA personalizada que sentará las bases
+                estratégicas de todo tu ecosistema DIVIA.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <lord-icon
+                src="https://cdn.lordicon.com/fuytegmd.json"
+                trigger="loop"
+                delay="1000"
+                colors="primary:#00d4ff,secondary:#8a2be2"
+                style="width: 250px; height: 250px"
+              >
+              </lord-icon>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-text">
+              <div class="timeline-week">FASE 2 | PLAN DIVIA™</div>
+              <h3>Estrategia y Estructura</h3>
+              <p>
+                Consiste en construir un plan estratégico que define con
+                claridad la oferta, el posicionamiento y los contenidos. Incluye
+                la arquitectura de servicios, el mensaje de venta principal,
+                estrategias de marketing con IA, y un calendario de contenidos
+                con prompts listos para usar.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <lord-icon
+                src="https://cdn.lordicon.com/ckdooote.json"
+                trigger="loop"
+                delay="1000"
+                state="in-reveal"
+                colors="primary:#00d4ff,secondary:#8a2be2"
+                style="width: 250px; height: 250px"
+              >
+              </lord-icon>
+            </div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-marker"></div>
+          <div class="timeline-content">
+            <div class="timeline-text">
+              <div class="timeline-week">FASE 3 | ACTIVOS DIVIA™</div>
+              <h3>Implementación Completa</h3>
+              <p>
+                Se entrega todo lo necesario para lanzar y automatizar: guiones
+                de venta y captación, una landing o mini web editable, un funnel
+                automatizado (opcional), y el entrenamiento de tres nuevos GPTs
+                especializados (contenido, objeciones y optimización), junto con
+                una caja de herramientas lista para implementar.
+              </p>
+            </div>
+            <div class="timeline-image">
+              <lord-icon
+                src="https://cdn.lordicon.com/ygymzvsj.json"
+                trigger="loop"
+                delay="1000"
+                state="hover-loading"
+                colors="primary:#00d4ff,secondary:#8a2be2"
+                style="width: 250px; height: 250px"
+              >
+              </lord-icon>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results Section -->
+    <section class="section fade-in">
+      <h2 class="section-title">
+        <i class="bi bi-check2-circle"></i> ¿Qué lograrás?
+      </h2>
+      <div class="results-grid">
+        <div class="result-item">
+          <h3>
+            <i class="bi bi-check-circle-fill" style="color: #00d4ff"></i>
+            Claridad total sobre tu negocio digital
+          </h3>
+        </div>
+        <div class="result-item">
+          <h3>
+            <i class="bi bi-check-circle-fill" style="color: #00d4ff"></i> Un
+            ecosistema que piensa, vende y automatiza por ti
+          </h3>
+        </div>
+        <div class="result-item">
+          <h3>
+            <i class="bi bi-check-circle-fill" style="color: #00d4ff"></i> Una
+            marca que transmite profesionalismo, valor y autoridad
+          </h3>
+        </div>
+        <div class="result-item">
+          <h3>
+            <i class="bi bi-check-circle-fill" style="color: #00d4ff"></i> Más
+            tiempo para ti, menos caos operativo
+          </h3>
+        </div>
+        <div class="result-item">
+          <h3>
+            <i class="bi bi-check-circle-fill" style="color: #00d4ff"></i> Un
+            plan accionable, vivo y flexible que puedes actualizar tú mismo
+          </h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="section fade-in">
+      <h2 class="section-title"><i class="bi bi-cash-coin"></i> Inversión</h2>
+      <div class="pricing-card">
+        <h3>Servicio Completo DIVIA™</h3>
+        <div class="price-main">USD 2.500</div>
+        <div class="price-alternative">O 6 cuotas de USD 450</div>
+        <div style="text-align: left; margin: 2rem 0">
+          <h4 style="color: #00d4ff; margin-bottom: 1rem">Incluye:</h4>
+          <p>✔ Acceso completo a tu cerebro digital</p>
+          <p>✔ Ecosistema digital personalizado</p>
+          <p>✔ 4 agentes GPTs funcionales + kit de herramientas digitales</p>
+          <p>✔ Soporte por WhatsApp en cada fase del servicio</p>
+        </div>
+        <p style="color: #cccccc; font-size: 0.9rem">
+          ⏳ Duración total: 4 semanas. Vigencia máxima: 6 semanas.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why Now Section -->
+    <div class="section faq-container">
+      <h2>Preguntas Frecuentes sobre DIVIA™</h2>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>1. ¿Qué es DIVIA™ y para quién es?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            DIVIA™ es un servicio 1:1 de transformación digital estratégica,
+            diseñado para consultores, mentores, coaches y expertos digitales
+            que ya venden sus servicios pero operan de forma desorganizada y
+            dependen demasiado de su tiempo y energía. Ayuda a estructurar,
+            automatizar y escalar negocios digitales utilizando inteligencia
+            artificial personalizada.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span
+            >2. ¿En qué se diferencia DIVIA™ de otros cursos o programas?</span
+          >
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            DIVIA™ no es un curso teórico, sino un servicio 1:1 intensivo y
+            accionable. Te entrega un funnel estructurado, scripts listos, GPTs
+            funcionales y una estrategia clara y operativa, adaptada a tu voz y
+            visión. Se enfoca en resultados tangibles y no en más información.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span
+            >3. No tengo tiempo para implementar esto ahora, ¿es DIVIA™ para
+            mí?</span
+          >
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Sí, precisamente por eso fue creado DIVIA™. Está diseñado para que
+            estructures, automatices y dejes de depender de tu tiempo. En solo 3
+            sesiones, obtendrás claridad, contenido y tecnología que te ahorrará
+            tiempo cada semana.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span
+            >4. No entiendo mucho de inteligencia artificial, ¿podré
+            usarla?</span
+          >
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            No necesitas ser un experto en tecnología. Te entrenamos paso a paso
+            y recibirás tus GPTs ya configurados para que los uses como
+            asistentes personales. La IA trabajará a tu favor.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>5. ¿Qué resultados tangibles puedo esperar con DIVIA™?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            Puedes esperar un aumento del 30% al 60% en las ventas de tu
+            servicio estrella en los siguientes 3 a 6 meses, una reducción de 8
+            a 15 horas semanales en tareas operativas, una estructura de oferta
+            profesional lista para escalar, y la activación de al menos 4
+            agentes GPT personalizados.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>6. ¿Cuánto dura el servicio DIVIA™ y cuál es su costo?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            El servicio tiene una duración estimada de 4 semanas, con una
+            vigencia máxima de 6 semanas desde la primera sesión. El costo total
+            es de USD 2.500 al contado, o puedes optar por un plan de pago de 6
+            cuotas mensuales de USD 450.
+          </p>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question">
+          <span>7. ¿Qué incluye el servicio DIVIA™?</span>
+          <span class="icon">+</span>
+        </div>
+        <div class="faq-answer">
+          <p>
+            DIVIA™ incluye 3 sesiones 1:1 personalizadas (90 min c/u), un plan
+            estratégico editable en Notion, una caja de herramientas con scripts
+            de venta, VSL, reels, landing, emails y calendario de contenidos, el
+            entrenamiento y entrega de 4 GPTs personalizados (Copy, Objeciones,
+            Contenido y Optimización), y soporte por chat privado durante 30
+            días hábiles.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final CTA -->
+    <section class="final-cta" id="final-cta">
+      <h2>
+        ¿Estás lista para estructurar, automatizar y escalar con claridad?
+      </h2>
+      <p style="font-size: 1.3rem; margin-bottom: 2.5rem">
+        Haz que tu negocio trabaje para ti (y no al revés).
+      </p>
+      <a
+        href="#"
+        class="cta-button"
+        style="font-size: 1.2rem; padding: 1.5rem 3rem"
+      >
+        QUIERO IMPLEMENTAR DIVIA™ EN MI NEGOCIO
+      </a>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <p>&copy; DIVIA™ – Todos los derechos reservados.</p>
+    </footer>
+
+    <script src="https://cdn.lordicon.com/lordicon.js"></script>
+    <script>
+      // Create animated particles
+      function createParticles() {
+        const particlesContainer = document.getElementById("particles");
+        const particleCount = window.innerWidth < 768 ? 30 : 60;
+
+        for (let i = 0; i < particleCount; i++) {
+          const particle = document.createElement("div");
+          particle.className = "particle";
+          particle.style.left = Math.random() * 100 + "%";
+          particle.style.top = Math.random() * 100 + "%";
+          particle.style.animationDelay = Math.random() * 6 + "s";
+          particle.style.animationDuration = Math.random() * 3 + 3 + "s";
+          particlesContainer.appendChild(particle);
+        }
+      }
+
+      // Scroll animations
+      function animateOnScroll() {
+        const elements = document.querySelectorAll(".fade-in, .timeline-item");
+
+        elements.forEach((element) => {
+          const elementTop = element.getBoundingClientRect().top;
+          const windowHeight = window.innerHeight;
+
+          if (elementTop < windowHeight * 0.8) {
+            element.classList.add("animate");
+          }
+        });
+      }
+
+      // Smooth scrolling for CTA buttons
+      function setupSmoothScroll() {
+        const ctaButtons = document.querySelectorAll(".cta-button");
+
+        ctaButtons.forEach((button) => {
+          button.addEventListener("click", function (e) {
+            const href = this.getAttribute("href");
+            if (href.startsWith("#")) {
+              e.preventDefault();
+              const target = document.querySelector(href);
+              if (target) {
+                target.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }
+            }
+          });
+        });
+      }
+
+      // Initialize everything
+      document.addEventListener("DOMContentLoaded", function () {
+        createParticles();
+        setupSmoothScroll();
+        animateOnScroll();
+
+        // Add scroll event listener
+        window.addEventListener("scroll", animateOnScroll);
+
+        // Resize handler for particles
+        window.addEventListener("resize", function () {
+          const particlesContainer = document.getElementById("particles");
+          particlesContainer.innerHTML = "";
+          createParticles();
+        });
+      });
+
+      // Add floating animation to hero elements
+      document.addEventListener("DOMContentLoaded", function () {
+        const heroContent = document.querySelector(".hero-content");
+        let ticking = false;
+
+        function updateHeroParallax() {
+          const scrolled = window.pageYOffset;
+          const rate = scrolled * -0.3;
+
+          if (heroContent) {
+            heroContent.style.transform = `translateY(${rate}px)`;
+          }
+
+          ticking = false;
+        }
+
+        function requestParallaxTick() {
+          if (!ticking) {
+            requestAnimationFrame(updateHeroParallax);
+            ticking = true;
+          }
+        }
+
+        window.addEventListener("scroll", requestParallaxTick);
+      });
+
+      //faq
+      document.addEventListener("DOMContentLoaded", () => {
+        const faqQuestions = document.querySelectorAll(".faq-question");
+
+        faqQuestions.forEach((question) => {
+          question.addEventListener("click", () => {
+            const parentItem = question.closest(".faq-item");
+            const answer = parentItem.querySelector(".faq-answer");
+            const icon = question.querySelector(".icon");
+
+            // Close other open answers
+            document.querySelectorAll(".faq-item").forEach((item) => {
+              if (item !== parentItem) {
+                const otherAnswer = item.querySelector(".faq-answer");
+                const otherQuestion = item.querySelector(".faq-question");
+                const otherIcon = item.querySelector(".icon");
+
+                if (
+                  otherAnswer.style.maxHeight !== "0px" &&
+                  otherAnswer.style.maxHeight !== ""
+                ) {
+                  otherAnswer.style.maxHeight = "0";
+                  otherAnswer.style.padding = "0px";
+                  otherQuestion.classList.remove("active");
+                  otherIcon.style.transform = "rotate(0deg)";
+                }
+              }
+            });
+
+            // Toggle current answer
+            if (
+              answer.style.maxHeight === "0px" ||
+              answer.style.maxHeight === ""
+            ) {
+              answer.style.maxHeight = answer.scrollHeight + "px";
+              answer.style.padding =
+                "5px 0 0"; /* Add a small top padding to separate from question */
+              question.classList.add("active");
+              icon.style.transform = "rotate(45deg)";
+            } else {
+              answer.style.maxHeight = "0";
+              answer.style.padding = "0";
+              question.classList.remove("active");
+              icon.style.transform = "rotate(0deg)";
+            }
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
