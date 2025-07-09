@@ -400,6 +400,41 @@ button {
     transform: scale(1.1);
 }
 
+/* Estilos para el overlay de los miembros del equipo */
+.about__team-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.7); /* Fondo semi-transparente oscuro */
+    color: #FFFFFF; /* Color del texto blanco */
+    padding: 0.75rem 1rem;
+    transform: translateY(100%); /* Oculto inicialmente, fuera de la vista */
+    transition: transform 0.3s ease-out; /* Transición suave para el efecto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-sizing: border-box; /* Incluir padding en el ancho/alto */
+    opacity: 0; /* Oculto inicialmente */
+}
+
+.about__team-member:hover .about__team-overlay {
+    transform: translateY(0); /* Muestra el overlay al pasar el mouse */
+    opacity: 1; /* Hace visible el overlay */
+}
+
+.about__team-description {
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0; /* Elimina márgenes predeterminados del párrafo */
+    line-height: 1.3;
+}
+
+.about__team-description span {
+    color: #9a9a9a;
+}
+
 /* ===== SERVICES ===== */
 .services__header {
     text-align: center;
@@ -1315,6 +1350,37 @@ button {
     .about__team-grid {
         grid-template-columns: repeat(2, 1fr);
         gap: 0.75rem;
+    }
+
+    .about__team-overlay {
+        position: static; /* Elimina el posicionamiento absoluto para fluir con el contenido */
+        transform: translateY(0); /* Asegura que el overlay esté siempre visible */
+        opacity: 1; /* Asegura que el overlay esté siempre visible */
+        background: rgba(0, 0, 0, 0.7); /* Mantén el fondo semi-transparente */
+        padding: 0.5rem 0.5rem; /* Ajusta el padding para móviles */
+        border-radius: 0 0 8px 8px; /* Si tienes bordes redondeados en las tarjetas */
+    }
+
+    .about__team-member {
+        display: flex;
+        flex-direction: column; /* Apila la imagen y el overlay verticalmente */
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .about__team-img {
+        border-radius: 8px 8px 0 0; /* Ajusta los bordes de la imagen si el overlay tiene bordes */
+    }
+
+    .about__team-member:hover .about__team-overlay {
+        transform: translateY(0); /* Asegura que no haya cambio en hover para móviles */
+        opacity: 1; /* Asegura que no haya cambio en hover para móviles */
+    }
+
+    .about__team-description {
+        font-size: 0.85rem; /* Ajusta el tamaño de la fuente para móviles */
+        height: 18vh;
     }
 
     .services__grid {
