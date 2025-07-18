@@ -531,87 +531,52 @@ button {
     margin-bottom: 3rem;
 }
 
-.portfolio__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-}
-
-.portfolio__item {
+/* ===== CLIENTES - Carrusel de logos ===== */
+.carousel-container {
+    width: 100%;
+    overflow: hidden; /* Oculta los logos que están fuera de vista */
     position: relative;
-    overflow: hidden;
-    border-radius: 1rem;
-    aspect-ratio: 4/3;
-    cursor: pointer;
+    padding: 2rem 0; /* Espacio para que los logos no estén pegados a los bordes */
 }
 
-.portfolio__img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.portfolio__overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(229, 62, 62, 0.9), rgba(197, 48, 48, 0.9));
+.carousel-track {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    width: fit-content; /* Permite que el contenedor se ajuste al contenido completo de los logos */
+    animation: scrollLogos 30s linear infinite; /* Aplica la animación */
+    will-change: transform; /* Optimización de rendimiento para animaciones */
+}
+
+.carousel-track:hover {
+    animation-play-state: paused; /* Pausa la animación al pasar el mouse */
+}
+
+.carousel-item {
+    flex-shrink: 0; /* Evita que los ítems se encojan */
+    padding: 0 2rem; /* Espacio entre los logos */
+    display: flex;
     align-items: center;
-    opacity: 0;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    text-align: center;
-    padding: 2rem;
+    justify-content: center;
 }
 
-.portfolio__item:hover .portfolio__overlay {
-    opacity: 1;
+.carousel-item img {
+    max-height: 80px; /* Altura máxima para los logos */
+    width: auto;
+    filter: grayscale(100%) opacity(0.6); /* Estilo por defecto para los logos */
+    transition: all 0.3s ease-in-out;
 }
 
-.portfolio__item:hover .portfolio__img {
-    transform: scale(1.1);
+.carousel-item img:hover {
+    filter: grayscale(0%) opacity(1); /* Color y opacidad al pasar el mouse */
 }
 
-.portfolio__title {
-    color: #FFFFFF;
-    font-size: 1.25rem;
-    margin-bottom: 0.5rem;
-}
-
-.portfolio__category {
-    color: #FFFFFF;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    margin-bottom: 1rem;
-    opacity: 0.8;
-}
-
-.portfolio__link {
-    background-color: #FFFFFF;
-    color: #E53E3E;
-    padding: 0.75rem 1.5rem;
-    border-radius: 0.5rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    font-size: 0.875rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.portfolio__link:hover {
-    background-color: #F7FAFC;
-    transform: translateY(-2px);
-}
-
-.portfolio__button {
-    text-align: center;
+/* Definición de la animación de scroll */
+@keyframes scrollLogos {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%); /* Desplaza el carrusel a la izquierda para que se repita */
+    }
 }
 
 /* ===== TESTIMONIALS ===== */
@@ -1392,9 +1357,16 @@ button {
         padding: 2rem 1.5rem;
     }
 
-    .portfolio__grid {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
+    .carousel-item {
+        padding: 0 1.5rem;
+    }
+
+    .carousel-item img {
+        max-height: 60px;
+    }
+
+    .carousel-track {
+        animation-duration: 20s; /* Más rápido en móviles si hay menos logos visibles */
     }
 
     .cta__container {
@@ -1487,8 +1459,12 @@ button {
         height: 60px;
     }
 
-    .portfolio__overlay {
-        padding: 1.5rem;
+    .carousel-item {
+        padding: 0 1rem;
+    }
+
+    .carousel-item img {
+        max-height: 50px;
     }
 
     .cta__container {

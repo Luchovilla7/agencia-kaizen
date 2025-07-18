@@ -1,3 +1,21 @@
+document.addEventListener('DOMContentLoaded', () => {
+    const carouselTrack = document.querySelector('.carousel-track');
+    
+    if (carouselTrack) {
+        // Clonar los hijos del carouselTrack
+        const children = Array.from(carouselTrack.children);
+        children.forEach(child => {
+            const clonedChild = child.cloneNode(true);
+            carouselTrack.appendChild(clonedChild);
+        });
+
+        // Opcional: Ajustar la duración de la animación si el número de elementos es dinámico
+        // Esto podría requerir cálculos más complejos del ancho total del track
+        // y la velocidad deseada para mantener una consistencia visual.
+        // Por ahora, la duración de la animación se mantiene en CSS.
+    }
+});
+
 // ===== MENU SHOW Y HIDDEN =====
 const navMenu = document.getElementById('nav-menu'),
       navToggle = document.getElementById('nav-toggle'),
