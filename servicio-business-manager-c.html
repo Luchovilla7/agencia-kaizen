@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odoo Pro - Implementación 360°</title>
+    <style>
+        :root {
+            --primary: #E53E3E;
+            --primary-dark: #c53030;
+            --text-main: #1A202C;
+            --text-light: #4A5568;
+            --bg-white: #ffffff;
+            --bg-off-white: #F7FAFC;
+            --bg-light-red: #FFF5F5;
+            --shadow-soft: 0 10px 30px -5px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px -5px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-white);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- UTILS --- */
+        .container {
+            /* Ampliado un poco (1200px) para que los 3 planes entren perfectos en línea */
+            max-width: 1200px; 
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .text-primary { color: var(--primary); }
+        .text-center { text-align: center; }
+        .section-padding { padding: 100px 0; }
+
+        /* --- HEADER & HERO --- */
+        .header {
+            padding: 60px 0 80px;
+            text-align: center;
+        }
+
+        .logo-placeholder {
+            width: 60px;
+            height: auto;
+            margin: 0 auto 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            letter-spacing: -1px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-checklist {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-bottom: 40px;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            background: var(--bg-off-white);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-size: 0.95rem;
+            border: 1px solid #edf2f7;
+        }
+
+        .icon-check { color: var(--primary); }
+
+        /* --- IDENTIFICATION BLOCK (Diseño Tarjetas) --- */
+        .pain-section {
+            background-color: var(--bg-light-red);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .pain-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 10px;
+            background: linear-gradient(90deg, transparent, rgba(229, 62, 62, 0.1), transparent);
+        }
+
+        .section-header {
+            margin-bottom: 60px;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .section-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+            color: var(--text-main);
+        }
+
+        .pain-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+            justify-content: center;
+        }
+
+        .pain-card {
+            background: white;
+            padding: 40px 32px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(229, 62, 62, 0.1);
+            position: relative;
+            height: 100%;
+        }
+
+        .pain-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(229, 62, 62, 0.3);
+        }
+
+        .pain-icon {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            display: inline-block;
+            background: var(--bg-light-red);
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+        }
+
+        .pain-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-main);
+        }
+
+        .pain-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* --- PROCESS SECTION --- */
+        .process-section {
+            background: white;
+        }
+
+        .process-steps {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-top: 50px;
+        }
+
+        .step {
+            flex: 1;
+            min-width: 180px;
+            text-align: left;
+            padding: 24px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+            background: var(--bg-off-white);
+        }
+        
+        .step-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: rgba(229, 62, 62, 0.2);
+            margin-bottom: 10px;
+        }
+
+        /* --- PRICING SECTION (Modificado para 3 en línea) --- */
+        .pricing-section {
+            background: linear-gradient(to bottom, white, #f8f9fa);
+        }
+
+        .plan-grid {
+            display: grid;
+            /* AQUÍ ESTÁ EL CAMBIO PRINCIPAL: repeat(3, 1fr) asegura 3 columnas */
+            grid-template-columns: repeat(3, 1fr); 
+            gap: 24px;
+            align-items: flex-start;
+        }
+
+        .plan-card {
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-soft);
+            overflow: hidden;
+            border: 1px solid #edf2f7;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+        }
+
+        .plan-card:hover { 
+            transform: translateY(-10px); 
+            box-shadow: var(--shadow-hover); 
+            z-index: 2;
+        }
+        
+        /* Ajuste para la tarjeta destacada en el centro */
+        .plan-card.featured { 
+            border: 2px solid var(--primary); 
+            transform: scale(1.03); /* Ligeramente más grande */
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+            z-index: 2;
+        }
+        .plan-card.featured:hover { 
+            transform: scale(1.05) translateY(-10px); 
+        }
+
+        .plan-header { padding: 40px 24px; border-bottom: 1px solid #edf2f7; }
+        .plan-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 8px; }
+        .plan-price { font-size: 2.2rem; font-weight: 800; color: var(--text-main); margin: 16px 0 8px; }
+        .plan-body { padding: 32px 24px; }
+        
+        .feature-group h4 { margin-bottom: 12px; font-size: 0.95rem; color: var(--text-main); }
+        .feature-list { list-style: none; margin-bottom: 20px; }
+        .feature-list li { margin-bottom: 8px; color: var(--text-light); padding-left: 20px; position: relative; font-size: 0.9rem; }
+        .feature-list li::before { content: "•"; color: var(--primary); font-weight: bold; position: absolute; left: 0; font-size: 1.2rem; line-height: 1; }
+
+        .details-content { max-height: 0; overflow: hidden; transition: max-height 0.5s ease; opacity: 0; }
+        .details-content.open { max-height: 1200px; opacity: 1; margin-top: 20px; padding-top: 20px; border-top: 1px dashed #e2e8f0; }
+
+        .toggle-btn { background: none; border: none; color: var(--primary); font-weight: 600; cursor: pointer; padding: 0; font-size: 0.85rem; }
+        .toggle-btn:hover { text-decoration: underline; }
+
+        .cta-btn { display: block; width: 100%; padding: 16px; background: var(--primary); color: white; text-decoration: none; font-weight: 700; border-radius: 12px; text-align: center; transition: background 0.3s; font-size: 1rem; }
+        .cta-btn:hover { background: var(--primary-dark); }
+
+        /* --- BENEFITS SECTION (Diseño Simétrico) --- */
+        .benefits-section {
+            background-color: white;
+            padding: 100px 0;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .benefit-card {
+            background: white;
+            padding: 30px 24px;
+            border-radius: 12px;
+            border: 1px solid #edf2f7;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .benefit-card:hover {
+            border-color: #48BB78;
+            box-shadow: 0 4px 20px rgba(72, 187, 120, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .benefit-check {
+            background-color: #F0FFF4;
+            color: #48BB78;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .benefit-text {
+            font-weight: 600;
+            color: var(--text-main);
+            font-size: 1.05rem;
+        }
+
+        /* --- FOOTER --- */
+        footer { background: #1a202c; color: white; padding: 80px 24px; text-align: center; }
+
+        /* Responsive: Solo en móviles/tablets apilamos las columnas */
+        @media (max-width: 1024px) {
+            .plan-grid { grid-template-columns: 1fr; max-width: 500px; margin: 0 auto; }
+            .plan-card.featured { transform: scale(1); }
+            .plan-card.featured:hover { transform: translateY(-5px); }
+            .hero-title { font-size: 2.5rem; }
+            .pain-grid, .benefits-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <header class="container header">
+        <div class="logo-placeholder"><img src="assets/img/logo.png" alt=""></div>
+        <h1 class="hero-title">Del Caos al <span class="text-primary">Control Total</span></h1>
+        <p class="hero-subtitle">
+            Ordenamos tu negocio para que puedas crecer sin caos. Implementación clara, 
+            acompañada y personalizada en 30 a 90 días.
+        </p>
+        <div class="hero-checklist">
+            <div class="checklist-item"><span class="icon-check">✔</span> Ventas</div>
+            <div class="checklist-item"><span class="icon-check">✔</span> Cobros</div>
+            <div class="checklist-item"><span class="icon-check">✔</span> Facturación</div>
+            <div class="checklist-item"><span class="icon-check">✔</span> Contabilidad</div>
+            <div class="checklist-item"><span class="icon-check">✔</span> Todo en un solo sistema</div>
+        </div>
+        <a href="#planes" class="cta-btn" style="max-width: 280px; margin: 0 auto; display: inline-block;">Ver Planes de Implementación</a>
+    </header>
+
+    <!-- IDENTIFICATION BLOCK -->
+    <section class="pain-section section-padding">
+        <div class="container">
+            <div class="section-header text-center">
+                <h2 class="section-title">Si esto te pasa, no estás solo</h2>
+                <p style="color: var(--text-light); font-size: 1.1rem;">Muchos profesionales facturan bien, pero viven desordenados. ¿Te identificas con esto?</p>
+            </div>
+
+            <div class="pain-grid">
+                <!-- Card 1 -->
+                <div class="pain-card">
+                    <div class="pain-icon">📉</div>
+                    <h3 class="pain-title">Facturás, pero no ves la ganancia</h3>
+                    <p class="pain-desc">Ingresa dinero, pero no sabés exactamente cuánto ganás ni dónde se va el margen real de tu negocio.</p>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="pain-card">
+                    <div class="pain-icon">🧠</div>
+                    <h3 class="pain-title">Información dispersa</h3>
+                    <p class="pain-desc">Tenés la información clave repartida entre miles de planillas de Excel, chats de WhatsApp y tu propia cabeza.</p>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="pain-card">
+                    <div class="pain-icon">🔥</div>
+                    <h3 class="pain-title">Apagando incendios</h3>
+                    <p class="pain-desc">Vivís resolviendo urgencias operativas en lugar de dedicarte a la estrategia o a vender más.</p>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="pain-card">
+                    <div class="pain-icon">😫</div>
+                    <h3 class="pain-title">Crecer te genera estrés</h3>
+                    <p class="pain-desc">Sentís que si entran más clientes, el desorden va a colapsar tu estructura actual.</p>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="pain-card">
+                    <div class="pain-icon">🛠️</div>
+                    <h3 class="pain-title">Intentos fallidos</h3>
+                    <p class="pain-desc">Ya probaste otros sistemas o freelancers que te dejaron a mitad de camino y nada terminó de funcionar.</p>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 50px;">
+                <p style="font-size: 1.2rem; font-weight: 700; color: var(--primary);">El problema es intentar crecer sin un sistema.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROCESS SECTION -->
+    <section class="process-section section-padding">
+        <div class="container">
+            <h2 class="text-center section-title">Nuestro Proceso de Implementación</h2>
+            <p class="text-center text-light">No vendemos software. Implementamos orden paso a paso.</p>
+            
+            <div class="process-steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h4 style="margin-bottom:5px;">Diagnóstico</h4>
+                    <p style="font-size:0.9rem; color:var(--text-light);">Analizamos tu operación real.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h4 style="margin-bottom:5px;">Diseño</h4>
+                    <p style="font-size:0.9rem; color:var(--text-light);">Configuramos según tu forma de trabajo.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h4 style="margin-bottom:5px;">Implementación</h4>
+                    <p style="font-size:0.9rem; color:var(--text-light);">Ventas, cobros y procesos claros.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">04</div>
+                    <h4 style="margin-bottom:5px;">Capacitación</h4>
+                    <p style="font-size:0.9rem; color:var(--text-light);">Uso real día a día, sin tecnicismos.</p>
+                </div>
+                <div class="step">
+                    <div class="step-number">05</div>
+                    <h4 style="margin-bottom:5px;">Acompañamiento</h4>
+                    <p style="font-size:0.9rem; color:var(--text-light);">No te dejamos solo en la marcha.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRICING PLANS -->
+    <section id="planes" class="pricing-section section-padding">
+        <div class="container">
+            <h2 class="text-center section-title">Elegí el nivel de orden que necesitás</h2>
+            <p class="text-center text-light" style="margin-bottom: 60px;">Planes escalables adaptados a tu realidad actual.</p>
+            
+            <!-- PLAN GRID: FORZADO A 3 COLUMNAS -->
+            <div class="plan-grid">
+                
+                <!-- PLAN 1 -->
+                <article class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-title">PLAN 1 <br>Gestión y Control</div>
+                        <p style="color:var(--text-light); font-style:italic; font-size:0.85rem; margin-bottom:10px; min-height:40px;">Para profesionales que necesitan orden financiero y operativo real.</p>
+                        <div class="plan-price">$1.500.000</div>
+                    </div>
+                    
+                    <div class="plan-body">
+                        <div class="feature-group">
+                            <h4>Resumen:</h4>
+                            <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:15px;">Ventas, Compras, Facturación, Contabilidad Básica y Capacitación.</p>
+                        </div>
+                        <button class="toggle-btn" onclick="togglePlan(this)">+ Ver desglose técnico</button>
+
+                        <div class="details-content">
+                            <div class="feature-group">
+                                <h4>Ventas & Compras</h4>
+                                <ul class="feature-list">
+                                    <li>Gestión de clientes y proveedores</li>
+                                    <li>Presupuestos y órdenes de venta</li>
+                                    <li>Control de gastos y compras</li>
+                                </ul>
+                            </div>
+                            <div class="feature-group">
+                                <h4>Finanzas</h4>
+                                <ul class="feature-list">
+                                    <li>Facturación electrónica integrada</li>
+                                    <li>Visión clara de ingresos y egresos</li>
+                                    <li>Trazabilidad completa</li>
+                                </ul>
+                            </div>
+                            <div class="feature-group">
+                                <h4>Plus</h4>
+                                <ul class="feature-list">
+                                    <li>Configuración personalizada</li>
+                                    <li>Capacitación práctica</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="#contacto" class="cta-btn">Elegir Plan 1</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PLAN 2 (DESTACADO) -->
+                <article class="plan-card featured">
+                    <div class="plan-header">
+                        <div class="plan-title">PLAN 2 <br>Gestión + Digital <span style="font-size:0.7rem; background:var(--primary); color:white; padding:3px 8px; border-radius:4px; vertical-align:middle;">POPULAR</span></div>
+                        <p style="color:var(--text-light); font-style:italic; font-size:0.85rem; margin-bottom:10px; min-height:40px;">Para vender y gestionar todo desde un solo sistema integrado.</p>
+                        <div class="plan-price">$2.000.000</div>
+                    </div>
+                    
+                    <div class="plan-body">
+                        <div class="feature-group">
+                            <h4>Incluye todo el Plan 1, más:</h4>
+                            <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:15px;">Página Web Institucional, Ecommerce integrado y gestión centralizada.</p>
+                        </div>
+                        <button class="toggle-btn" onclick="togglePlan(this)">+ Ver desglose técnico</button>
+
+                        <div class="details-content">
+                            <div class="feature-group">
+                                <h4>Web & Ecommerce</h4>
+                                <ul class="feature-list">
+                                    <li>Página web institucional profesional</li>
+                                    <li>Ecommerce integrado a Odoo</li>
+                                    <li>Adaptada a tu marca</li>
+                                </ul>
+                            </div>
+                            <div class="feature-group">
+                                <h4>Automatización</h4>
+                                <ul class="feature-list">
+                                    <li>Ventas conectadas al sistema</li>
+                                    <li>Cobros automáticos</li>
+                                    <li>Facturación sin doble carga</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="#contacto" class="cta-btn">Elegir Plan 2</a>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- PLAN 3 -->
+                <article class="plan-card">
+                    <div class="plan-header">
+                        <div class="plan-title">PLAN 3 <br>Ecosistema Full</div>
+                        <p style="color:var(--text-light); font-style:italic; font-size:0.85rem; margin-bottom:10px; min-height:40px;">Para quienes buscan orden + visibilidad + crecimiento constante.</p>
+                        <div class="plan-price">$2.000.000</div>
+                        <p style="color:var(--text-light); font-weight:600;">+ $300.000 / mes</p>
+                    </div>
+                    
+                    <div class="plan-body">
+                        <div class="feature-group">
+                            <h4>Incluye todo el Plan 2, más:</h4>
+                            <p style="font-size:0.9rem; color:var(--text-light); margin-bottom:15px;">Gestión de Redes Sociales, Marketing y Acompañamiento continuo.</p>
+                        </div>
+                        <button class="toggle-btn" onclick="togglePlan(this)">+ Ver desglose técnico</button>
+
+                        <div class="details-content">
+                            <div class="feature-group">
+                                <h4>Marketing & Redes</h4>
+                                <ul class="feature-list">
+                                    <li>Estrategia de contenidos</li>
+                                    <li>Gestión profesional de redes</li>
+                                    <li>Generación de oportunidades</li>
+                                </ul>
+                            </div>
+                            <div class="feature-group">
+                                <h4>Soporte Continuo</h4>
+                                <ul class="feature-list">
+                                    <li>Seguimiento de CRM</li>
+                                    <li>Optimización mensual</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div style="margin-top:30px;">
+                            <a href="#contacto" class="cta-btn">Elegir Plan 3</a>
+                        </div>
+                    </div>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFITS SECTION -->
+    <section class="benefits-section">
+        <div class="container">
+            <h2 class="section-title text-center" style="margin-bottom: 50px;">¿Qué cambia después de implementar?</h2>
+            
+            <div class="benefits-grid">
+                <!-- Benefit 1 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Ves tus números claros y en tiempo real.</div>
+                </div>
+                <!-- Benefit 2 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Ahorrás horas operativas todas las semanas.</div>
+                </div>
+                <!-- Benefit 3 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Dejás de depender de planillas de cálculo.</div>
+                </div>
+                <!-- Benefit 4 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Mejorás drásticamente la experiencia de tus clientes.</div>
+                </div>
+                <!-- Benefit 5 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Tomás decisiones basadas en datos, no intuición.</div>
+                </div>
+                <!-- Benefit 6 -->
+                <div class="benefit-card">
+                    <div class="benefit-check">✔</div>
+                    <div class="benefit-text">Tu negocio funciona, por fin, como un negocio.</div>
+                </div>
+            </div>
+
+            <div class="text-center" style="margin-top: 50px;">
+                <span style="background:#edf2f7; padding: 10px 20px; border-radius:50px; color:var(--text-light); font-weight:600;">
+                    Resultado: Menos estrés. Más control. Más crecimiento.
+                </span>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer id="contacto">
+        <div class="container">
+            <h2 style="font-size: 2rem; margin-bottom: 20px;">No se elige por precio, se elige por necesidad real.</h2>
+            <p style="margin-bottom: 40px; font-size: 1.1rem; opacity: 0.8; max-width:600px; margin-left:auto; margin-right:auto;">
+                Agendá una reunión de diagnóstico y te mostramos dónde estás hoy y qué plan es el correcto para vos.
+            </p>
+            <a href="https://wa.me/543751526493" class="cta-btn" style="background: white; color: var(--text-main); max-width: 320px; margin: 0 auto; display: inline-block;">
+                📅 Agendar Diagnóstico Gratuito
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function togglePlan(btn) {
+            const content = btn.nextElementSibling;
+            const isOpen = content.classList.contains('open');
+            if (isOpen) {
+                content.classList.remove('open');
+                btn.innerText = '+ Ver desglose técnico';
+            } else {
+                content.classList.add('open');
+                btn.innerText = '- Ocultar desglose';
+            }
+        }
+    </script>
+</body>
+</html>
