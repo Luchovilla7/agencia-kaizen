@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Potencia tu Negocio en Google | Servicios Exclusivos</title>
+    
+    <!-- Google Fonts: Inter (Tipografía moderna y limpia) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script','https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '541149255477132');
+        fbq('track', 'PageView');
+    </script>
+    <noscript>
+        <img height="1" width="1" style="display:none"src="https://www.facebook.com/tr?id=541149255477132&ev=PageView&noscript=1"/>
+    </noscript>
+<!-- End Meta Pixel Code -->
+    
+    <!-- FontAwesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- VARIABLES & RESET (TEMA CLARO) --- */
+        :root {
+            --bg-color: #ffffff;      /* Fondo Blanco Puro */
+            --card-bg: #ffffff;       /* Tarjetas Blancas */
+            --text-main: #1a1a1a;     /* Texto casi negro para contraste */
+            --text-secondary: #555555; /* Texto gris medio */
+            --border-color: #e5e5e5;  /* Bordes sutiles */
+            
+            /* Colores de Marca */
+            --brand-red: #d32f2f;     /* Rojo Kaizen (Detalles) */
+            
+            /* Colores de Paquetes (Ajustados para fondo blanco) */
+            --accent-green: #00c853; 
+            --accent-blue: #2962ff; 
+            --accent-red: #d50000;  
+            
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* --- UTILIDADES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Detalle Rojo solicitado */
+        .highlight {
+            color: var(--brand-red);
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            min-height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 60px 20px;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, #fafafa 0%, #ffffff 70%); /* Sutil gradiente */
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s forwards;
+            color: #000;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 40px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 0.8s 0.2s forwards;
+        }
+
+        /* --- PRICING SECTION --- */
+        .pricing-section {
+            padding: 40px 0 100px 0;
+            background-color: #fafafa; /* Diferenciación sutil del fondo */
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* --- CARDS --- */
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px 30px;
+            position: relative;
+            transition: var(--transition);
+            opacity: 0;
+            transform: translateY(50px);
+            cursor: default;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.02); /* Sombra muy sutil inicial */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: #d1d1d1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08); /* Sombra más notable en hover */
+        }
+
+        /* Indicador de color superior */
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 4px;
+            border-radius: 0 0 4px 4px;
+        }
+
+        .card.pkg-1::before { background-color: var(--accent-green); box-shadow: 0 2px 10px rgba(0, 200, 83, 0.2); }
+        .card.pkg-2::before { background-color: var(--accent-blue); box-shadow: 0 2px 15px rgba(41, 98, 255, 0.2); width: 100%; top: 0; border-radius: 16px 16px 0 0; height: 6px;}
+        .card.pkg-3::before { background-color: var(--accent-red); box-shadow: 0 2px 10px rgba(213, 0, 0, 0.2); }
+
+        /* Estilos específicos para la tarjeta destacada */
+        .card.pkg-2 {
+            background: #ffffff;
+            border: 1px solid #dbeafe; /* Borde azul muy suave */
+            transform: scale(1.05);
+            z-index: 2;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+        }
+        
+        .card.pkg-2:hover {
+            transform: scale(1.07);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+        }
+
+        .card-header {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .package-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .price {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 5px;
+        }
+
+        .price span {
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-secondary);
+        }
+
+        .card-description {
+            text-align: center;
+            font-style: italic;
+            color: var(--text-main);
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+            background: rgba(0,0,0,0.04); /* Fondo gris muy claro */
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .features {
+            list-style: none;
+            margin-bottom: 40px;
+            flex-grow: 1;
+        }
+
+        .features li {
+            margin-bottom: 15px;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            display: flex;
+            align-items: start;
+        }
+
+        .features li i {
+            margin-right: 10px;
+            margin-top: 4px;
+        }
+
+        .pkg-1 .features li i { color: var(--accent-green); }
+        .pkg-2 .features li i { color: var(--accent-blue); }
+        .pkg-3 .features li i { color: var(--accent-red); }
+
+        /* --- CTA BUTTONS --- */
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid #e0e0e0;
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            background: #fff;
+            border-color: var(--brand-red); /* Detalle rojo al hover */
+            color: var(--brand-red);
+        }
+
+        /* Botón del Hero con estilo Rojo */
+        .hero .btn-outline {
+             border-color: var(--text-main);
+             color: var(--text-main);
+             background: transparent;
+        }
+        .hero .btn-outline:hover {
+            background: var(--brand-red);
+            border-color: var(--brand-red);
+            color: white;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+            box-shadow: 0 4px 15px rgba(41, 121, 255, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: #0056d6;
+            box-shadow: 0 6px 20px rgba(41, 121, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* Etiqueta de Recomendado */
+        .recommended-badge {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-blue);
+            color: white;
+            padding: 4px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 10px rgba(41, 121, 255, 0.3);
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .pricing-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .card.pkg-2 { transform: scale(1); border-top: 6px solid var(--accent-blue); }
+            .card.pkg-2:hover { transform: translateY(-5px); }
+        }
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .reveal {
+            opacity: 1 !important;
+            transform: translateY(0) !important;
+        }
+
+        /* --- FLOATING WHATSAPP --- */
+        .floating-wa {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: #25D366;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            z-index: 100;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+
+        .floating-wa:hover {
+            transform: scale(1.1);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container">
+            <h1>Domina Google.<br> <span class="highlight">Vende Más.</span></h1>
+            <p>Dejá de perder clientes frente a tu competencia. Optimizamos tu ficha de Google Empresa con estrategias probadas para posicionarte como líder en tu zona.</p>
+            <a href="https://wa.me/543751526493?text=Hola,%20quiero%20mejorar%20mi%20presencia%20en%20Google" class="btn btn-outline" style="max-width: 250px; margin: 0 auto;">Agendar Consulta Gratis</a>
+        </div>
+    </section>
+
+    <!-- PRICING SECTION -->
+    <section class="pricing-section">
+        <div class="container">
+            <div class="pricing-grid">
+
+                <!-- PLAN 1: PRESENCIA ACTIVA -->
+                <article class="card pkg-1 observer-target">
+                    <div class="card-header">
+                        <span class="package-name" style="color: var(--accent-green);">Presencia Activa</span>
+                        <div class="price">USD 80-120<span>/mes</span></div>
+                    </div>
+                    
+                    <div class="card-description">
+                        “Nos aseguramos de que tu negocio esté bien presentado y activo en Google para que no pierdas oportunidades.”
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fa-solid fa-check"></i> Gestión continua de ficha</li>
+                        <li><i class="fa-solid fa-check"></i> Mejora de visibilidad local</li>
+                        <li><i class="fa-solid fa-check"></i> Orden de información</li>
+                        <li><i class="fa-solid fa-check"></i> Acompañamiento mensual</li>
+                    </ul>
+
+                    <a href="https://wa.me/543751526493?text=Me%20interesa%20el%20Plan%20Presencia%20Activa" class="btn btn-outline">Empezar Ahora</a>
+                </article>
+
+                <!-- PLAN 2: VISIBILIDAD LOCAL (CORE) -->
+                <article class="card pkg-2 observer-target">
+                    <div class="recommended-badge">Más Elegido</div>
+                    <div class="card-header">
+                        <span class="package-name" style="color: var(--accent-blue);">Visibilidad Local</span>
+                        <div class="price">USD 150-220<span>/mes</span></div>
+                    </div>
+
+                    <div class="card-description">
+                        “Aquí no solo estás en Google: empiezas a competir en serio para que te elijan sobre los demás.”
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fa-solid fa-check"></i> <strong>Todo lo del plan anterior</strong></li>
+                        <li><i class="fa-solid fa-rocket"></i> Optimización vs. Competidores</li>
+                        <li><i class="fa-solid fa-star"></i> Gestión estratégica de reseñas</li>
+                        <li><i class="fa-solid fa-image"></i> Publicaciones regulares</li>
+                        <li><i class="fa-solid fa-chart-line"></i> Seguimiento de rendimiento</li>
+                    </ul>
+
+                    <a href="https://wa.me/543751526493?text=Hola,%20quiero%20contratar%20el%20Plan%20Visibilidad%20Local" class="btn btn-primary">Competir en Serio</a>
+                </article>
+
+                <!-- PLAN 3: DOMINIO LOCAL -->
+                <article class="card pkg-3 observer-target">
+                    <div class="card-header">
+                        <span class="package-name" style="color: var(--accent-red);">Dominio Local</span>
+                        <div class="price">USD 280-400<span>/mes</span></div>
+                    </div>
+
+                    <div class="card-description">
+                        “Es para negocios que quieren ser la referencia absoluta de su zona, no uno más del montón.”
+                    </div>
+
+                    <ul class="features">
+                        <li><i class="fa-solid fa-check"></i> <strong>Todo lo anterior</strong></li>
+                        <li><i class="fa-solid fa-chess-king"></i> Estrategia personalizada</li>
+                        <li><i class="fa-solid fa-magnifying-glass-chart"></i> Análisis profundo de competencia</li>
+                        <li><i class="fa-solid fa-headset"></i> Soporte prioritario</li>
+                        <li><i class="fa-solid fa-bullseye"></i> Ajustes orientados a resultados</li>
+                    </ul>
+
+                    <a href="https://wa.me/543751526493?text=Quiero%20el%20Plan%20Dominio%20Local" class="btn btn-outline">Dominar el Mercado</a>
+                </article>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FLOATING WHATSAPP -->
+    <a href="https://wa.me/543751526493?text=Hola,%20tengo%20una%20consulta" class="floating-wa" target="_blank" title="Hablemos por WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // Lógica simple para animar elementos cuando aparecen en pantalla (Intersection Observer)
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15 // Se activa cuando el 15% del elemento es visible
+            };
+
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach((entry, index) => {
+                    if (entry.isIntersecting) {
+                        // Añadimos un pequeño retraso basado en el índice para efecto cascada
+                        setTimeout(() => {
+                            entry.target.classList.add('reveal');
+                        }, index * 150);
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const cards = document.querySelectorAll('.observer-target');
+            cards.forEach(card => {
+                observer.observe(card);
+            });
+        });
+    </script>
+
+</body>
+</html>
