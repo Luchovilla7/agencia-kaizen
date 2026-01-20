@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creativos con IA | Infraestructura de Contenido con IA</title>
+
+    <!-- Fuentes: Noto Sans JP (Kaizen) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- CSS -->
+    <style>
+        :root {
+            /* Palette Light Mode */
+            --bg-light: #ffffff;
+            --surface-light: #F7FAFC;
+            --text-primary: #1A202C;
+            --text-secondary: #718096;
+            --border-light: #E2E8F0;
+
+            /* Palette Dark Mode (Sections) */
+            --bg-dark: #1A202C;
+            --text-on-dark: #ffffff;
+            --border-dark: #2D3748;
+
+            /* Branding - Kaizen Red */
+            --accent: #E53E3E;
+            --accent-dark: #C53030;
+            --radius: 0.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: "Noto Sans JP", sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .btn,
+        .nav-item {
+            font-family: "Noto Sans JP", sans-serif;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+
+        /* --- ANIMATIONS (Minimal & Smooth) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            /* Ease-out suave */
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- UTILITIES --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        .section-padding {
+            padding: 100px 0;
+        }
+
+        .bg-black {
+            background-color: var(--bg-dark);
+            color: var(--text-on-dark);
+        }
+
+        .bg-white {
+            background-color: var(--bg-light);
+            color: var(--text-primary);
+        }
+
+        /* --- BUTTONS --- */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: var(--radius);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Botón negro sólido (Primary on White) */
+        .btn-primary {
+            background-color: var(--text-primary);
+            color: white;
+            border: 1px solid var(--text-primary);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-dark);
+            border-color: var(--accent-dark);
+            color: white;
+            box-shadow: 0 10px 30px rgba(229, 62, 62, 0.3);
+        }
+
+        /* Botón borde (Secondary) */
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border-light);
+            color: var(--text-secondary);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            color: var(--text-primary);
+        }
+
+        /* Botón blanco (Primary on Black) */
+        .btn-white {
+            background-color: white;
+            color: black;
+            border: 1px solid white;
+        }
+
+        .btn-white:hover {
+            background-color: transparent;
+            color: white;
+        }
+
+        /* --- NAVBAR --- */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--border-light);
+            z-index: 1000;
+            padding: 5px 0;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-img {
+            width: 65px;
+            display: block;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            padding-top: 120px;
+            padding-bottom: 80px;
+            text-align: center;
+            position: relative;
+            background-color: var(--bg-light);
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            line-height: 1;
+            margin-bottom: 24px;
+            color: var(--text-primary);
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .hero-visual {
+            margin: 50px auto;
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            transition: filter 0.5s ease;
+            mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+        }
+
+        /* --- CAROUSEL (On White) --- */
+        .carousel-section {
+            padding: 40px 0;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-light);
+            border-top: 1px solid var(--border-light);
+            background: var(--surface-light);
+            position: relative;
+        }
+
+        /* Degradados blancos a los lados */
+        .carousel-section::before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(to right, var(--surface-light), transparent);
+            z-index: 2;
+        }
+
+        .carousel-section::after {
+            content: "";
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100px;
+            height: 100%;
+            background: linear-gradient(to left, var(--surface-light), transparent);
+            z-index: 2;
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 20px;
+            animation: scroll 35s linear infinite;
+            width: max-content;
+        }
+
+        .carousel-item {
+            position: relative;
+            width: 280px;
+            height: auto;
+            border-radius: 6px;
+            overflow: hidden;
+            filter: grayscale(100%);
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .carousel-item:hover {
+            filter: grayscale(0%);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .carousel-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-tag {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: white;
+            color: black;
+            padding: 4px 8px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        @keyframes scroll {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(-280px * 7 - 140px));
+            }
+        }
+
+        /* --- BRANDS --- */
+        .brand-ticker {
+            padding: 40px 0;
+            border-bottom: 1px solid var(--border-light);
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+            color: #ccc;
+            /* Gris claro en fondo blanco */
+        }
+
+        .brand-ticker i {
+            font-size: 2rem;
+            transition: color 0.3s;
+        }
+
+        .brand-ticker:hover i {
+            color: #888;
+        }
+
+        /* --- SERVICES (DARK SECTION) --- */
+        .services-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .service-col {
+            padding: 200px 75px;
+            position: relative;
+            background-size: cover;
+            background-position: center;
+            overflow: hidden;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            /* Texto blanco forzado */
+        }
+
+        .service-col:last-child {
+            border-right: none;
+        }
+
+        .service-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            transition: background 0.4s;
+            z-index: 1;
+        }
+
+        .service-col:hover .service-overlay {
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .service-content {
+            position: relative;
+            z-index: 2;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 400px;
+        }
+
+        .service-tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .service-col h3 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        .service-list li {
+            color: #ccc;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .service-list li i {
+            color: var(--accent);
+            margin-right: 10px;
+        }
+
+        /* --- THE SYSTEM (WHITE) --- */
+        .system-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border: 1px solid var(--border-light);
+            background: white;
+        }
+
+        .system-step {
+            padding: 50px 30px;
+            border-right: 1px solid var(--border-light);
+            transition: background 0.3s;
+        }
+
+        .system-step:last-child {
+            border-right: none;
+        }
+
+        .system-step:hover {
+            background: #fcfcfc;
+        }
+
+        .step-num {
+            font-size: 0.9rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .system-step h4 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        /* --- DATA GRID (WHITE) --- */
+        .data-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            border: 1px solid var(--border-light);
+            margin-top: 60px;
+        }
+
+        .data-cell {
+            padding: 24px;
+            border-bottom: 1px solid var(--border-light);
+            border-right: 1px solid var(--border-light);
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .data-header {
+            background: #f4f4f4;
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .data-highlight {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* --- FAQ (WHITE) --- */
+        .faq-item {
+            border-bottom: 1px solid var(--border-light);
+            padding: 25px 0;
+        }
+
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: 0.4s;
+            color: var(--text-secondary);
+            margin-top: 0;
+        }
+
+        .faq-item.active .faq-answer {
+            margin-top: 15px;
+            max-height: 200px;
+        }
+
+        /* --- FOOTER (BLACK) --- */
+        .footer-section {
+            background-color: var(--bg-dark);
+            color: white;
+            text-align: center;
+            padding: 120px 0 60px;
+        }
+
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: inline-block;
+        }
+
+        .footer-copy {
+            color: #718096;
+            font-size: 0.85rem;
+            border-top: 1px solid #2D3748;
+            margin-top: 80px;
+            padding-top: 30px;
+        }
+
+        /* --- RESPONSIVE --- */
+        @media (max-width: 900px) {
+
+            .services-split,
+            .system-grid,
+            .data-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .service-col {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .system-step {
+                border-right: none;
+                border-bottom: 1px solid var(--border-light);
+            }
+
+            .data-grid {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+
+            .logo-img {
+                height: 56px;
+                width: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <!-- LOGO: Asegúrate de tener tu imagen 'logo.png' o reemplaza src con tu link -->
+            <a href="#" class="nav-logo">
+                <img src="assets/img/logo.png" alt="KAIZEN CREATIVOS CON IA" class="logo-img">
+            </a>
+            <a href="#calendly" class="btn btn-primary" style="padding: 10px 20px; font-size: 0.8rem;">Agendar Demo</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION (WHITE) -->
+    <section class="hero reveal">
+        <div class="container">
+            <h1>Sistemas de Producción<br>Digital & Escalable.</h1>
+            <p>Reemplazamos rodajes costosos con Avatares IA y Entornos Virtuales. Creamos la identidad visual del
+                futuro.</p>
+
+            <!-- HERO IMAGE (CLEAN) -->
+            <div class="hero-visual">
+                <img src="assets/img/image-hero.webp" alt="Lab Interface">
+            </div>
+
+            <div style="margin-top: 40px;">
+                <a href="#servicios" class="btn btn-primary">Explorar Soluciones</a>
+                <a href="#calendly" class="btn btn-outline" style="margin-left: 10px;">El Proceso</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAROUSEL (WHITE BACKGROUND) -->
+    <section class="carousel-section reveal">
+        <div class="marquee-track">
+            <!-- IMAGES (Grayscale to Color on Hover) -->
+            <div class="carousel-item"><img src="assets/img/ugc.jpeg">
+                <div class="carousel-tag">UGC / AVATAR</div>
+            </div>
+            <div class="carousel-item"><img src="assets/img/editorial.jpeg">
+                <div class="carousel-tag">EDITORIAL</div>
+            </div>
+            <div class="carousel-item"><img src="assets/img/fashion.jpeg">
+                <div class="carousel-tag">FASHION</div>
+            </div>
+            <div class="carousel-item"><img src="assets/img/male.jpeg">
+                <div class="carousel-tag">MALE MODEL</div>
+            </div>
+            <div class="carousel-item"><img src="assets/img/neon.jpeg">
+                <div class="carousel-tag">NEON</div>
+            </div>
+            <div class="carousel-item"><img src="assets/img/lifestyle.jpeg">
+                <div class="carousel-tag">LIFESTYLE</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIAL PROOF (WHITE) -->
+    <div class="brand-ticker reveal">
+        <i class="fa-brands fa-aws"></i>
+        <i class="fa-brands fa-google"></i>
+        <i class="fa-brands fa-paypal"></i>
+        <i class="fa-brands fa-meta"></i>
+        <i class="fa-brands fa-shopify"></i>
+    </div>
+
+    <!-- SERVICES (BLACK SECTION - HIGH CONTRAST) -->
+    <section id="servicios" class="bg-black reveal">
+        <div class="services-split">
+            <!-- UGC -->
+            <div class="service-col" style="background-image: url('assets/img/ugc-service.webp');">
+                <div class="service-overlay"></div>
+                <div class="service-content">
+                    <div>
+                        <span class="service-tag">INFRAESTRUCTURA UGC</span>
+                        <h3>Avatares IA</h3>
+                        <p style="color:#ccc;">Clonación de identidad y generación masiva. Escala tu presencia en redes.
+                        </p>
+                        <ul class="service-list" style="margin-top: 20px; list-style:none;">
+                            <li><i class="fa-solid fa-check"></i> Gemelos Digitales (Voz/Rostro)</li>
+                            <li><i class="fa-solid fa-check"></i> 20+ videos/mes por cliente</li>
+                            <li><i class="fa-solid fa-check"></i> Respuesta inmediata</li>
+                        </ul>
+                    </div>
+                    <a href="#calendly" class="btn btn-white" style="align-self: start; margin-top:30px;">Desplegar
+                        Sistema</a>
+                </div>
+            </div>
+
+            <!-- EDITORIAL -->
+            <div class="service-col" style="background-image: url('assets/img/editorial-service.jpeg');">
+                <div class="service-overlay"></div>
+                <div class="service-content">
+                    <div>
+                        <span class="service-tag">HIGH-END VISUALS</span>
+                        <h3>Sesiones Editoriales</h3>
+                        <p style="color:#ccc;">Cine publicitario generado por IA Generativa. Narrativa visual imposible.
+                        </p>
+                        <ul class="service-list" style="margin-top: 20px; list-style:none;">
+                            <li><i class="fa-solid fa-check"></i> Spots TV Quality</li>
+                            <li><i class="fa-solid fa-check"></i> Entornos 3D Oníricos</li>
+                            <li><i class="fa-solid fa-check"></i> Foto de producto virtual</li>
+                        </ul>
+                    </div>
+                    <a href="#calendly" class="btn btn-white" style="align-self: start; margin-top:30px;">Iniciar
+                        Producción</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- THE PROCESS (WHITE) -->
+    <section class="section-padding reveal">
+        <div class="container">
+            <div style="margin-bottom: 60px;">
+                <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Metodología Kaizen IA</h2>
+                <p style="color: var(--text-secondary);">Proceso propietario de despliegue de contenido.</p>
+            </div>
+
+            <div class="system-grid">
+                <div class="system-step">
+                    <span class="step-num">01 / INGESTIÓN</span>
+                    <h4>Entrenamiento</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Recopilamos datos de tu marca.
+                        Entrenamos la IA con tu voz y rostro para consistencia perfecta.</p>
+                </div>
+                <div class="system-step">
+                    <span class="step-num">02 / SÍNTESIS</span>
+                    <h4>Generación</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Nuestros directores creativos utilizan
+                        los modelos para generar scripts y visuales masivos.</p>
+                </div>
+                <div class="system-step">
+                    <span class="step-num">03 / DESPLIEGUE</span>
+                    <h4>Optimización</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Recibes los assets listos. Analizamos
+                        métricas y re-ajustamos el modelo.</p>
+                </div>
+            </div>
+
+            <!-- COMPARISON -->
+            <div class="data-grid">
+                <div class="data-cell data-header">Métrica Operativa</div>
+                <div class="data-cell data-header">Agencia Tradicional</div>
+                <div class="data-cell data-header data-highlight">KAIZEN CREATIVOS CON IA</div>
+
+                <div class="data-cell">Time-to-market</div>
+                <div class="data-cell">14 - 21 Días</div>
+                <div class="data-cell data-highlight">2 - 4 Horas</div>
+
+                <div class="data-cell">Costo por Asset</div>
+                <div class="data-cell">$500 - $2,000</div>
+                <div class="data-cell data-highlight">$50 - $150</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ (WHITE) -->
+    <section class="section-padding reveal" style="padding-top:0;">
+        <div class="container" style="max-width: 800px;">
+            <h3 style="margin-bottom: 40px;">Protocolos (FAQ)</h3>
+
+            <div class="faq-item">
+                <div class="faq-question">¿Diferencia entre Avatar UGC y Editorial? <i class="fa-solid fa-plus"></i>
+                </div>
+                <div class="faq-answer">El Avatar UGC simula personas reales para venta directa en redes. La sesión
+                    Editorial es arte visual abstracto y cinematográfico para branding.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">¿Necesito enviar productos físicos? <i class="fa-solid fa-plus"></i></div>
+                <div class="faq-answer">Generalmente no. Entrenamos a la IA con fotos de tu producto y lo recreamos
+                    digitalmente en entornos 3D.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER / CTA (BLACK) -->
+    <footer id="calendly" class="footer-section reveal">
+        <div class="container">
+            <div class="cta-hero">
+                <h2 style="font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 20px; line-height: 1.1;">
+                    ¿Listo para Revolucionar tu<br>Contenido Digital?
+                </h2>
+                <p
+                    style="color: var(--text-secondary); margin-bottom: 50px; font-size: 1.15rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                    Agenda una sesión estratégica con nuestro equipo y descubre cómo la IA puede transformar tu
+                    producción de contenido.
+                </p>
+
+                <!-- WhatsApp CTA Button -->
+                <div class="whatsapp-cta-wrapper">
+                    <a href="https://wa.me/5493751542968?text=Hola,%20quiero%20información%20sobre%20el%20servicio%20de%20creativos%20con%20IA"
+                        class="whatsapp-cta-btn" target="_blank" rel="noopener noreferrer">
+                        <span class="whatsapp-icon-wrapper">
+                            <i class="fab fa-whatsapp"></i>
+                        </span>
+                        <span class="whatsapp-text">
+                            <span class="whatsapp-main">Hablar con un Especialista</span>
+                            <span class="whatsapp-sub">Respuesta inmediata · Gratis</span>
+                        </span>
+                        <span class="whatsapp-arrow">
+                            <i class="fas fa-arrow-right"></i>
+                        </span>
+                    </a>
+
+                    <div class="cta-benefits">
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Consulta sin compromiso</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Respuesta en minutos</span>
+                        </div>
+                        <div class="benefit-item">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Asesoría personalizada</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-copy">
+                KAIZEN CREATIVOS CON IA © 2025 // TODO LOS DERECHOS RESERVADOS
+            </div>
+        </div>
+    </footer>
+
+    <style>
+        .cta-hero {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .whatsapp-cta-wrapper {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .whatsapp-cta-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-dark) 100%);
+            color: white;
+            padding: 24px 32px;
+            border-radius: 16px;
+            text-decoration: none;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(229, 62, 62, 0.3);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 40px;
+        }
+
+        .whatsapp-cta-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .whatsapp-cta-btn:hover::before {
+            left: 100%;
+        }
+
+        .whatsapp-cta-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 60px rgba(229, 62, 62, 0.5);
+        }
+
+        .whatsapp-icon-wrapper {
+            width: 60px;
+            height: 60px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .whatsapp-cta-btn:hover .whatsapp-icon-wrapper {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1) rotate(10deg);
+        }
+
+        .whatsapp-text {
+            flex: 1;
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .whatsapp-main {
+            font-size: 1.25rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .whatsapp-sub {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            font-weight: 400;
+            display: block;
+        }
+
+        .whatsapp-arrow {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .whatsapp-cta-btn:hover .whatsapp-arrow {
+            transform: translateX(8px);
+        }
+
+        .cta-benefits {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-on-dark);
+            font-size: 0.95rem;
+        }
+
+        .benefit-item i {
+            color: var(--accent);
+            font-size: 1.1rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .whatsapp-cta-btn {
+                flex-direction: column;
+                text-align: center;
+                padding: 28px 24px;
+            }
+
+            .whatsapp-text {
+                text-align: center;
+            }
+
+            .whatsapp-arrow {
+                display: none;
+            }
+
+            .cta-benefits {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .benefit-item {
+                justify-content: center;
+            }
+        }
+    </style>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Animación de Scroll (Intersection Observer)
+        const observer = new IntersectionObserver(
+            (entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("active");
+                    }
+                });
+            },
+            { threshold: 0.1 }
+        );
+
+        document.querySelectorAll(".reveal").forEach((el) => observer.observe(el));
+
+        // FAQ Toggle
+        document.querySelectorAll(".faq-question").forEach((item) => {
+            item.addEventListener("click", () => {
+                const parent = item.parentElement;
+                parent.classList.toggle("active");
+                const icon = item.querySelector("i");
+                if (parent.classList.contains("active")) {
+                    icon.classList.remove("fa-plus");
+                    icon.classList.add("fa-minus");
+                } else {
+                    icon.classList.remove("fa-minus");
+                    icon.classList.add("fa-plus");
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const track = document.querySelector(".marquee-track");
+
+            // Clonamos el contenido para que el bucle sea continuo
+            // Al duplicarlo, cuando termina el primer set, el segundo ya se está mostrando.
+            const content = track.innerHTML;
+            track.innerHTML = content + content;
+        });
+
+    </script>
+</body>
+
+</html>
