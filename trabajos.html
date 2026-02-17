@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trabajos de Diseño y Desarrollo Web - Kaizen Agency</title>
+    <meta name="description"
+        content="Explora el portafolio de Kaizen. Diseños web y soluciones de desarrollo que impulsan negocios con la filosofía de mejora continua.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="icon" type="image/png" href="assets/img/logo-favicon.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css" rel="stylesheet" />
+    <style>
+        /* Estilos específicos para la página de trabajos */
+        .portafolio-body {
+            background-color: #ffffff;
+        }
+
+        .portada-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('assets/img/bg-web.jpeg');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .portada-section::before {
+            content: '改善';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20rem;
+            color: rgba(255, 255, 255, 0.05);
+            font-family: "Noto Sans JP", sans-serif;
+            z-index: 0;
+            white-space: nowrap;
+        }
+
+        .portada__title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            z-index: 1;
+            max-width: 900px;
+            line-height: 1.1;
+            color: #ffffff;
+        }
+
+        .portada__line {
+            width: 100px;
+            height: 4px;
+            background-color: #ffffff;
+            margin: 0 auto;
+            border-radius: 2px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .filosofia-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: #f7fafc;
+            overflow: hidden;
+        }
+
+        .filosofia__grid {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        .proyectos-grid {
+            padding: 8rem 0;
+        }
+
+        .proyectos__card {
+            background-color: #fff;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #edf2f7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .proyectos__card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(229, 62, 62, 0.1);
+            border-color: rgba(229, 62, 62, 0.2);
+        }
+
+        .proyectos__img-container {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            background-color: #edf2f7;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .proyectos__img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .proyectos__card:hover .proyectos__img {
+            transform: scale(1.05);
+        }
+
+        .proyectos__content {
+            padding: 2rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .proyectos__name {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-color);
+        }
+
+        .proyectos__desc {
+            color: var(--text-light);
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            flex-grow: 1;
+        }
+
+        .btn-ver {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--primary-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            transition: gap 0.3s ease;
+        }
+
+        .btn-ver:hover {
+            gap: 0.75rem;
+        }
+
+        .back-home {
+            position: fixed;
+            top: 2rem;
+            left: 2rem;
+            z-index: 100;
+            background: white;
+            padding: 0.75rem 1.25rem;
+            border-radius: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-home:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateX(-5px);
+        }
+
+        @media screen and (max-width: 992px) {
+            .filosofia-section {
+                height: auto;
+                padding: 6rem 0;
+            }
+
+            .filosofia__grid {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .filosofia__image-box {
+                height: 50vh;
+                order: -1;
+            }
+
+            .portada__title {
+                font-size: 2.8rem;
+            }
+        }
+
+        @media screen and (max-width: 576px) {
+            .portada-section {
+                height: 80vh;
+                /* Ajuste para móviles */
+            }
+
+            .portada__title {
+                font-size: 2.2rem;
+            }
+
+            .back-home {
+                top: 1rem;
+                left: 1rem;
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+
+<body class="portafolio-body">
+    <header class="header" id="header">
+        <nav class="nav container">
+            <div class="nav__logo">
+                <img src="assets/img/logo.png" alt="Kaizen Logo" class="nav__logo-img">
+            </div>
+
+            <div class="nav__menu" id="nav-menu">
+                <ul class="nav__list">
+                    <li class="nav__item">
+                        <a href="index.html#inicio" class="nav__link">Inicio</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#servicios" class="nav__link">Servicios</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#clientes" class="nav__link">Clientes</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#testimonios" class="nav__link">Testimonios</a>
+                    </li>
+                    <li class="nav__item">
+                        <a href="index.html#contacto" class="nav__link">Contacto</a>
+                    </li>
+                </ul>
+
+                <div class="nav__close" id="nav-close">
+                    <i class="ri-close-line"></i>
+                </div>
+            </div>
+
+            <div class="nav__actions">
+                <a href="#contacto" class="nav__cta">Reserva llamada</a>
+
+                <div class="nav__toggle" id="nav-toggle">
+                    <i class="ri-menu-line"></i>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Canvas para el efecto de menú -->
+    <canvas id="menuCanvas" class="menu-canvas"></canvas>
+
+    <main class="main">
+        <!-- SECCIÓN 1: PORTADA (100vh) -->
+        <section class="portada-section">
+            <div class="container" style="position: relative; z-index: 2;">
+                <h1 class="portada__title reveal">Trabajos de Diseño y Desarrollo Web</h1>
+                <div class="portada__line reveal"></div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: FILOSOFÍA Y SERVICIOS (100vh) -->
+        <section class="filosofia-section">
+            <div class="container">
+                <div class="filosofia__grid">
+                    <div class="reveal">
+                        <span class="section__subtitle">Excelencia Digital</span>
+                        <h2 class="section__title">Nuestra Filosofía de Mejora Continua</h2>
+                        <p class="about__description">
+                            En Kaizen, cada proyecto web es un organismo vivo. No solo nos enfocamos en el lanzamiento
+                            inicial, sino en la optimización constante de la experiencia del usuario y el rendimiento
+                            técnico.
+                        </p>
+                        <p class="about__description">
+                            Creemos que el diseño web debe ser el motor de crecimiento de tu marca. Por eso fusionamos
+                            estética japonesa, funcionalidad avanzada y desarrollo escalable para entregar sitios que no
+                            solo se ven bien, sino que venden.
+                        </p>
+                        <div style="margin-top: 2.5rem;">
+                            <a href="https://wa.link/lnbya5" class="button">Empezar mi proyecto</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: GRILLA DE PROYECTOS -->
+        <section class="proyectos-grid" id="proyectos">
+            <div class="container">
+                <div class="services__header reveal">
+                    <span class="section__subtitle">Galería de Trabajos</span>
+                    <h2 class="section__title">Diseños que transforman negocios</h2>
+                </div>
+
+                <div class="services__grid">
+                    <!-- Card 1 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/nautica-cabañas.png" alt="Proyecto 1" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Náutica Chascomús</h3>
+                            <p class="proyectos__desc">
+                                Diseño institucional con navegación intuitiva y catálogo de servicios náuticos
+                                optimizado para la conversión regional.
+                            </p>
+                            <a href="https://guardernianauticachascomus.com/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 2 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/mysticagym.png" alt="Proyecto 2" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Mística Gym</h3>
+                            <p class="proyectos__desc">
+                                Landing page de alto impacto para comunidad fitness, integrando sistemas de contacto
+                                rápido y diseño mobile-first.
+                            </p>
+                            <a href="https://misticagym.com/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 3 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/hotel-amatista.png" alt="Proyecto 3" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Hotel Amatista</h3>
+                            <p class="proyectos__desc">
+                                Portal de reservas de lujo con estética minimalista y experiencia de usuario fluida
+                                enfocada en el sector turístico.
+                            </p>
+                            <a href="https://amatistahotel.com/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 4 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/gratitud-femenina.png" alt="Proyecto 4" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Gratitud Femenina</h3>
+                            <p class="proyectos__desc">
+                                E-commerce especializado con identidad visual disruptiva y sistema de ventas integrado
+                                para productos orgánicos.
+                            </p>
+                            <a href="#" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 5 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/optica-web.png" alt="Proyecto 5" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Óptica Günther</h3>
+                            <p class="proyectos__desc">
+                                Digitalización de negocio tradicional con catálogo interactivo y optimización de
+                                presencia local para Google.
+                            </p>
+                            <a href="https://opticagunther.com.ar/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 6 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/ecorey-web.png" alt="Proyecto 6" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Soluciones Ecorey</h3>
+                            <p class="proyectos__desc">
+                                Plataforma corporativa robusta diseñada para presentar servicios industriales complejos
+                                con claridad y profesionalismo.
+                            </p>
+                            <a href="https://s-ecorey.com/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+
+                    <!-- Card 7 -->
+                    <article class="proyectos__card reveal">
+                        <div class="proyectos__img-container">
+                            <img src="assets/img/vet-cannabicos.png" alt="Proyecto 6" class="proyectos__img">
+                        </div>
+                        <div class="proyectos__content">
+                            <h3 class="proyectos__name">Veterinarios Cannábicos</h3>
+                            <p class="proyectos__desc">
+                                Plataforma corporativa robusta diseñada para presentar servicios industriales complejos
+                                con claridad y profesionalismo.
+                            </p>
+                            <a href="https://veterinarioscannabicos.org.ar/" target="_blank" class="btn-ver">
+                                Ver web <i class="ri-external-link-line"></i>
+                            </a>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 4: CTA WHATSAPP -->
+        <section class="contact section" id="contacto" style="background-color: #f7fafc;">
+            <div class="container">
+                <div class="services__header reveal">
+                    <span class="section__subtitle">El siguiente paso</span>
+                    <h2 class="section__title">Hagamos realidad tu próximo proyecto web</h2>
+                </div>
+                <div style="text-align: center; margin-top: 2rem;" class="reveal">
+                    <a href="https://wa.link/lnbya5" class="button"
+                        style="display: inline-flex; align-items: center; gap: 1rem; padding: 1.5rem 3rem; font-size: 1.1rem;">
+                        <i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i>
+                        Hablar por WhatsApp
+                    </a>
+                    <p class="about__description"
+                        style="margin-top: 2rem; max-width: 600px; margin-left: auto; margin-right: auto;">
+                        Estamos listos para escucharte y diseñar la solución que tu negocio necesita para escalar.
+                    </p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="footer__container container">
+            <div class="footer__content">
+                <div class="footer__brand">
+                    <img src="assets/img/logo-favicon.png" alt="Kaizen Logo" class="footer__logo">
+                    <p class="footer__description">
+                        Transformamos ideas en experiencias digitales extraordinarias
+                    </p>
+                </div>
+
+                <div class="footer__links">
+                    <div class="footer__group">
+                        <h3 class="footer__title">Navegación</h3>
+                        <ul class="footer__list">
+                            <li><a href="index.html#inicio" class="footer__link">Inicio</a></li>
+                            <li><a href="index.html#servicios" class="footer__link">Servicios</a></li>
+                            <li><a href="#" class="footer__link active-link">Trabajos</a></li>
+                            <li><a href="index.html#testimonios" class="footer__link">Testimonios</a></li>
+                            <li><a href="index.html#contacto" class="footer__link">Contacto</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__group">
+                        <h3 class="footer__title">Servicios</h3>
+                        <ul class="footer__list">
+                            <li><a href="index.html#servicios" class="footer__link">Diseño Web</a></li>
+                            <li><a href="index.html#servicios" class="footer__link">Redes Sociales</a></li>
+                            <li><a href="google-empresa.html" class="footer__link">Google Empresa</a></li>
+                            <li><a href="creativo-con-ia.html" class="footer__link">Creativos con IA</a></li>
+                            <li><a href="servicio-divia.html" class="footer__link">DIVIA™</a></li>
+                            <li><a href="servicio-business-manager-c.html" class="footer__link">Business Manager</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="footer__group">
+                        <h3 class="footer__title">Síguenos</h3>
+                        <div class="footer__social">
+                            <a href="#" class="footer__social-link">
+                                <i class="fab fa-facebook"></i>
+                            </a>
+                            <a href="#" class="footer__social-link">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="footer__social-link">
+                                <i class="fab fa-linkedin"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer__bottom">
+                <p class="footer__copy">
+                    © 2024 Kaizen. Todos los derechos reservados.
+                </p>
+                <div class="footer__legal">
+                    <a href="#" class="footer__legal-link">Política de Privacidad</a>
+                    <a href="#" class="footer__legal-link">Términos de Servicio</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Botón Scroll Up -->
+    <a href="#" class="scrollup" id="scroll-up">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M18 15L12 9L6 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+        </svg>
+    </a>
+
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>

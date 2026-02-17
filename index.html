@@ -84,7 +84,11 @@
 
     <main class="main">
         <section class="hero section" id="inicio">
-            <div class="hero__container container">
+            <div class="hero__bg-pattern"></div>
+            <div class="hero__parallax-layer hero__parallax-layer--1"></div>
+            <div class="hero__parallax-layer hero__parallax-layer--2"></div>
+
+            <div class="hero__container container grid">
                 <div class="hero__content">
                     <h1 class="hero__title">
                         Evoluciona tu marca<br>
@@ -94,7 +98,10 @@
                         Transformamos ideas en experiencias digitales extraordinarias a través del diseño web, marketing
                         estratégico e inteligencia artificial
                     </p>
-                    <a href="#cta-calendly" class="hero__cta">Reserva tu asesoría gratis</a>
+                    <div class="hero__btns">
+                        <a href="#cta-calendly" class="hero__cta">Reserva tu asesoría gratis</a>
+                        <a href="#servicios" class="hero__secondary-cta">Nuestros Servicios</a>
+                    </div>
                 </div>
 
                 <div class="hero__visual">
@@ -104,7 +111,7 @@
             </div>
 
             <div class="hero__scroll">
-                <span class="hero__scroll-text">Scroll</span>
+                <span class="hero__scroll-text">Scroll Down</span>
                 <div class="hero__scroll-line"></div>
             </div>
         </section>
@@ -142,32 +149,18 @@
 
                 <div class="about__team">
                     <div class="about__team-grid">
-                        <div class="about__team-member">
+                        <div class="about__team-member reveal">
                             <img src="assets/img/cinthia.jpeg" alt="Team Member" class="about__team-img">
                             <div class="about__team-overlay">
                                 <p class="about__team-description">Cinthia Espinoza<br><span>Marketing &
                                         Contenido</span></p>
                             </div>
                         </div>
-                        <div class="about__team-member">
+                        <div class="about__team-member reveal">
                             <img src="assets/img/lucho.png" alt="Team Member" class="about__team-img">
                             <div class="about__team-overlay">
                                 <p class="about__team-description">Luciano Villalba<br><span>Diseño e Inteligencia
                                         artificial</span></p>
-                            </div>
-                        </div>
-                        <div class="about__team-member">
-                            <img src="assets/img/facu.webp" alt="Team Member" class="about__team-img">
-                            <div class="about__team-overlay">
-                                <p class="about__team-description">Facundo Villalba<br><span>Desarrollo Web &
-                                        Automatizaciones</span></p>
-                            </div>
-                        </div>
-                        <div class="about__team-member">
-                            <img src="assets/img/soporte-emocional.webp" alt="Team Member" class="about__team-img">
-                            <div class="about__team-overlay">
-                                <p class="about__team-description">Mimi, Pancho y Akira<br><span>Soporte
-                                        Emocional</span></p>
                             </div>
                         </div>
                     </div>
@@ -200,7 +193,7 @@
                             Creamos sitios web únicos, responsivos y optimizados que reflejan la esencia de tu marca y
                             convierten visitantes en clientes.
                         </p>
-                        <a href="https://wa.link/lnbya5" class="services__link">Conocer más</a>
+                        <a href="trabajos.html" class="services__link">Conocer más</a>
                     </article>
 
                     <article class="services__card">

@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const carouselTrack = document.querySelector('.carousel-track');
-    
+
     if (carouselTrack) {
         // Clonar los hijos del carouselTrack
         const children = Array.from(carouselTrack.children);
@@ -8,25 +8,39 @@ document.addEventListener('DOMContentLoaded', () => {
             const clonedChild = child.cloneNode(true);
             carouselTrack.appendChild(clonedChild);
         });
-
-        // Opcional: Ajustar la duración de la animación si el número de elementos es dinámico
-        // Esto podría requerir cálculos más complejos del ancho total del track
-        // y la velocidad deseada para mantener una consistencia visual.
-        // Por ahora, la duración de la animación se mantiene en CSS.
     }
+
+    /* ===== SCROLL REVEAL ===== */
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+            }
+        });
+    }, { threshold: 0.1 });
+
+    // Add reveal classes to sections
+    const sectionsToReveal = document.querySelectorAll('.section, .services__card, .testimonial__card, .about__content');
+    sectionsToReveal.forEach(el => {
+        if (!el.classList.contains('hero')) {
+            el.classList.add('reveal');
+            revealObserver.observe(el);
+        }
+    });
+
+    document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => revealObserver.observe(el));
 });
 
 // ===== MENU SHOW Y HIDDEN =====
 const navMenu = document.getElementById('nav-menu'),
-      navToggle = document.getElementById('nav-toggle'),
-      navClose = document.getElementById('nav-close'),
-      menuCanvas = document.getElementById('menuCanvas'); // Obtener el elemento canvas
+    navToggle = document.getElementById('nav-toggle'),
+    navClose = document.getElementById('nav-close'),
+    menuCanvas = document.getElementById('menuCanvas');
 
 let ctx, particles = [];
-const menuOpenColor = '#E53E3E'; // Color principal del menú abierto (rojo)
-const particleCount = 100; // Número de partículas para la animación
+const menuOpenColor = '#E53E3E';
+const particleCount = 100;
 
-// Clase para las partículas del canvas
 class Particle {
     constructor(x, y) {
         this.x = x;
@@ -34,15 +48,13 @@ class Particle {
         this.size = Math.random() * 5 + 1;
         this.speedX = Math.random() * 3 - 1.5;
         this.speedY = Math.random() * 3 - 1.5;
-        this.color = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`; // Partículas blancas semi-transparentes
+        this.color = `rgba(255, 255, 255, ${Math.random() * 0.8 + 0.2})`;
     }
-
     update() {
         this.x += this.speedX;
         this.y += this.speedY;
         if (this.size > 0.2) this.size -= 0.1;
     }
-
     draw() {
         ctx.fillStyle = this.color;
         ctx.beginPath();
@@ -51,7 +63,6 @@ class Particle {
     }
 }
 
-// Inicializar el canvas
 function initCanvas() {
     if (menuCanvas) {
         menuCanvas.width = window.innerWidth;
@@ -60,96 +71,73 @@ function initCanvas() {
     }
 }
 
-// Crear partículas
 function createParticles(x, y) {
-    particles = []; // Limpiar partículas anteriores
+    particles = [];
     for (let i = 0; i < particleCount; i++) {
         particles.push(new Particle(x, y));
     }
 }
 
-// Animar el canvas
 function animateCanvas() {
     if (!ctx) return;
-    
-    // Rellenar el fondo con el color del menú
     ctx.fillStyle = menuOpenColor;
     ctx.fillRect(0, 0, menuCanvas.width, menuCanvas.height);
-
     for (let i = 0; i < particles.length; i++) {
         particles[i].update();
         particles[i].draw();
     }
-    // Elimina partículas muy pequeñas para evitar acumulación infinita
     particles = particles.filter(particle => particle.size > 0.2);
-
-    // Solo continúa la animación si el menú está abierto y hay partículas
     if (navMenu.classList.contains('show-menu') || particles.length > 0) {
         requestAnimationFrame(animateCanvas);
     }
 }
 
-// Listener para el redimensionamiento de la ventana
 window.addEventListener('resize', initCanvas);
-
-// Inicializar el canvas al cargar la página
 initCanvas();
 
-
-// MENU SHOW
-if(navToggle){
-    navToggle.addEventListener('click', () =>{
+if (navToggle) {
+    navToggle.addEventListener('click', () => {
         navMenu.classList.add('show-menu')
-        menuCanvas.classList.add('show'); // Mostrar el canvas
-        initCanvas(); // Re-inicializar canvas al abrir para asegurar dimensiones correctas
-        // Crea las partículas en el centro de la pantalla
-        createParticles(window.innerWidth / 2, window.innerHeight / 2); 
-        animateCanvas(); // Iniciar la animación
+        menuCanvas.classList.add('show');
+        initCanvas();
+        createParticles(window.innerWidth / 2, window.innerHeight / 2);
+        animateCanvas();
     })
 }
 
-// MENU HIDDEN
-if(navClose){
-    navClose.addEventListener('click', () =>{
+if (navClose) {
+    navClose.addEventListener('click', () => {
         navMenu.classList.remove('show-menu')
-        menuCanvas.classList.remove('show'); // Ocultar el canvas
-        particles = []; // Limpiar las partículas al cerrar el menú
+        menuCanvas.classList.remove('show');
+        particles = [];
     })
 }
 
-// ===== REMOVE MENU MOBILE =====
 const navLink = document.querySelectorAll('.nav__link')
-
-function linkAction(){
+function linkAction() {
     const navMenu = document.getElementById('nav-menu')
     navMenu.classList.remove('show-menu')
-    menuCanvas.classList.remove('show'); // Ocultar el canvas también al hacer click en un enlace
-    particles = []; // Limpiar las partículas al hacer click en un enlace
+    menuCanvas.classList.remove('show');
+    particles = [];
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
-// ===== CHANGE BACKGROUND HEADER =====
-function scrollHeader(){
+function scrollHeader() {
     const nav = document.getElementById('header')
-    if(this.scrollY >= 80) nav.classList.add('scroll-header'); else nav.classList.remove('scroll-header')
+    if (window.scrollY >= 80) nav.classList.add('scroll-header'); else nav.classList.remove('scroll-header')
 }
 window.addEventListener('scroll', scrollHeader)
 
-// ===== ACTIVE LINK =====
 const sections = document.querySelectorAll('section[id]')
-
-function scrollActive(){
+function scrollActive() {
     const scrollY = window.pageYOffset
-
-    sections.forEach(current =>{
+    sections.forEach(current => {
         const sectionHeight = current.offsetHeight,
-              sectionTop = current.offsetTop - 58,
-              sectionId = current.getAttribute('id')
-
+            sectionTop = current.offsetTop - 58,
+            sectionId = current.getAttribute('id')
         const navLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
-        
-        if(navLink) { // Add a check to ensure navLink exists
-            if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
+        if (navLink) {
+            if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
                 navLink.classList.add('active-link')
             } else {
                 navLink.classList.remove('active-link')
@@ -159,6 +147,23 @@ function scrollActive(){
 }
 window.addEventListener('scroll', scrollActive)
 
+/* ===== PARALLAX EFFECT ===== */
+function parallaxEffect() {
+    const scroll = window.pageYOffset;
+    const bgPattern = document.querySelector('.hero__bg-pattern');
+    const parallax1 = document.querySelector('.hero__parallax-layer--1');
+    const parallax2 = document.querySelector('.hero__parallax-layer--2');
+    const heroImg = document.querySelector('.hero__img');
+    const heroContent = document.querySelector('.hero__content');
+
+    if (bgPattern) bgPattern.style.transform = `translateY(${scroll * 0.4}px)`;
+    if (parallax1) parallax1.style.transform = `translateY(${scroll * -0.15}px) rotate(${scroll * 0.05}deg)`;
+    if (parallax2) parallax2.style.transform = `translateY(${scroll * 0.3}px) rotate(${scroll * -0.03}deg)`;
+    if (heroImg) heroImg.style.transform = `translateY(${scroll * 0.12}px)`;
+    if (heroContent) heroContent.style.transform = `translateY(${scroll * 0.05}px)`;
+}
+window.addEventListener('scroll', parallaxEffect);
+
 /* ===== PRELOADER ===== */
 const preloader = document.createElement('div');
 preloader.className = 'preloader';
@@ -167,8 +172,6 @@ preloader.innerHTML = `
         <img src="assets/img/logo.png" alt="Kaizen" class="preloader__logo">
     </div>
 `;
-
-// Add preloader styles (inline, for quick setup, consider moving to style.css)
 const preloaderStyles = `
     .preloader {
         position: fixed;
@@ -176,92 +179,56 @@ const preloaderStyles = `
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: #FFFFFF; /* Using white-color directly */
+        background-color: #FFFFFF;
         display: flex;
         align-items: center;
         justify-content: center;
         z-index: 9999;
         transition: opacity 0.5s ease, visibility 0.5s ease;
     }
-    
-    .preloader__spinner {
-        animation: pulse 2s ease-in-out infinite;
-    }
-    
-    .preloader__logo {
-        width: 80px;
-        height: auto;
-    }
-    
-    .preloader.hide {
-        opacity: 0;
-        visibility: hidden;
-    }
-
-    @keyframes pulse {
-        0% {
-            transform: scale(1);
-        }
-        50% {
-            transform: scale(1.05);
-        }
-        100% {
-            transform: scale(1);
-        }
-    }
+    .preloader__spinner { animation: pulse 2s ease-in-out infinite; }
+    .preloader__logo { width: 80px; height: auto; }
+    .preloader.hide { opacity: 0; visibility: hidden; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
 `;
-
 const styleSheet = document.createElement('style');
 styleSheet.textContent = preloaderStyles;
 document.head.appendChild(styleSheet);
 document.body.prepend(preloader);
+window.addEventListener('load', () => { preloader.classList.add('hide'); });
 
-// Hide preloader when page loads
-window.addEventListener('load', () => {
-    preloader.classList.add('hide');
-});
-
-
-// ===== SCROLL UP =====
-function scrollUp(){
+function scrollUp() {
     const scrollUp = document.getElementById('scroll-up');
-    // When the scroll is higher than 200 viewport height, add the show-scroll class to the a tag with the scroll-top class
-    if(this.scrollY >= 200) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
+    if (window.scrollY >= 200) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
 }
 window.addEventListener('scroll', scrollUp)
-
 
 /* ===== TESTIMONIALS CAROUSEL ===== */
 const testimonialsContainer = document.querySelector('.testimonials__carousel');
 const testimonialCards = document.querySelectorAll('.testimonial__card');
-const prevButton = document.getElementById('prev-testimonial');
-const nextButton = document.getElementById('next-testimonial');
+const prevButton = document.querySelector('.testimonials__button--prev');
+const nextButton = document.querySelector('.testimonials__button--next');
 
-let currentIndex = 0;
-
-function updateCarousel() {
-    const cardWidth = testimonialCards[0].offsetWidth; // Get the width of a single card
-    testimonialsContainer.style.transform = `translateX(${-currentIndex * cardWidth}px)`;
+if (testimonialsContainer && testimonialCards.length > 0) {
+    let currentIndex = 0;
+    function updateCarousel() {
+        const cardWidth = testimonialCards[0].offsetWidth + 24;
+        testimonialsContainer.scrollTo({
+            left: currentIndex * cardWidth,
+            behavior: 'smooth'
+        });
+    }
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex < testimonialCards.length - 1) ? currentIndex + 1 : 0;
+            updateCarousel();
+        });
+    }
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex > 0) ? currentIndex - 1 : testimonialCards.length - 1;
+            updateCarousel();
+        });
+    }
+    window.addEventListener('resize', updateCarousel);
 }
-
-nextButton.addEventListener('click', () => {
-    if (currentIndex < testimonialCards.length - 1) {
-        currentIndex++;
-    } else {
-        currentIndex = 0; // Loop back to the beginning
-    }
-    updateCarousel();
-});
-
-prevButton.addEventListener('click', () => {
-    if (currentIndex > 0) {
-        currentIndex--;
-    } else {
-        currentIndex = testimonialCards.length - 1; // Loop to the end
-    }
-    updateCarousel();
-});
-
-// Update carousel on load and resize
-window.addEventListener('load', updateCarousel);
-window.addEventListener('resize', updateCarousel);
